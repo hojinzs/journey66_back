@@ -25,7 +25,8 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 
 //Route::middleware('api')->resource('places', 'placeController');
 
-Route::apiResource('places','placeController');
+Route::apiResource('places','API\PlaceController');
+Route::apiResource('tags','API\TagController');
 
 Route::middleware('api')->get('/test', function (Request $request) {
     return response("TEST",200);

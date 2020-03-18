@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Database\Seeder;
+use App\Place;
 
 class PlacesTableSeeder extends Seeder
 {
@@ -12,7 +13,7 @@ class PlacesTableSeeder extends Seeder
     public function run()
     {
         //
-        factory(App\Place::class, 50)->create()->each(function ($place) {
+        factory(Place::class, 50)->create()->each(function ($place) {
             $place->make();
         });
     }
