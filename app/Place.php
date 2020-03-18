@@ -14,9 +14,14 @@ class Place extends Model
         'status' => 'live',
     ];
 
+    public function tags()
+    {
+        return $this->belongsToMany('App\Tag')->withTimestamps();
+    }
+
     Public function owner()
     {
-        return $this->hasOne('App/User');
+        return $this->hasOne('App\User');
     }
 
 }

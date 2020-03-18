@@ -2,6 +2,7 @@
 
 use Illuminate\Database\Seeder;
 use App\Place;
+use App\Tag;
 
 class PlacesTableSeeder extends Seeder
 {
@@ -14,7 +15,9 @@ class PlacesTableSeeder extends Seeder
     {
         //
         factory(Place::class, 50)->create()->each(function ($place) {
-            $place->make();
+            $tags = Tag::all();
+
+            $place->tags()->attach($tags->random(rand(1,5)));
         });
     }
 }

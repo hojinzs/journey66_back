@@ -28,6 +28,7 @@ class Place extends JsonResource
             'formattedAddress' => $this->address1.' '.$this->address2,
             'Url' => $this->homepage,
             'Image' => $this->thumbnail,
+            'tags' => $this->tags,
         ];
     }
 }
