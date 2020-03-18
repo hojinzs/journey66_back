@@ -7,7 +7,7 @@ use Faker\Generator as Faker;
 
 $factory->define(Place::class, function (Faker $faker) {
 
-    $type_array = ['shop','monument'];
+    $type_array = ['shop', 'lockstand', 'sharing', 'convinience','monument', 'goverment'];
 
     return [
         //
