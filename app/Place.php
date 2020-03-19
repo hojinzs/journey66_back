@@ -19,9 +19,19 @@ class Place extends Model
         return $this->belongsToMany('App\Tag')->withTimestamps();
     }
 
+    Public function likes()
+    {
+        return $this->morphMany('App\Like','like_what');
+    }
+
     Public function owner()
     {
         return $this->hasOne('App\User');
+    }
+
+    Public function recommends()
+    {
+        return $this->hasMany('App\PlaceRecommend')->where(['hidden' => false]);
     }
 
 }

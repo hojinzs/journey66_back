@@ -30,6 +30,8 @@ class Place extends JsonResource
             'Url' => $this->homepage,
             'Image' => $this->thumbnail,
             'tags' => $this->tags,
+            'likes_count' => count($this->likes),
+            'recommends_count' => count($this->recommends),
         ];
     }
 }

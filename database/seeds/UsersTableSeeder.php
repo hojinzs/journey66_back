@@ -13,7 +13,7 @@ class UsersTableSeeder extends Seeder
     public function run()
     {
         //
-        factory(User::class, 10)->create()->each(function ($user) {
+        factory(User::class, 50)->create()->each(function ($user) {
             $user->make();
         });
     }
