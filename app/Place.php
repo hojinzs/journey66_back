@@ -16,7 +16,8 @@ class Place extends Model
 
     public function tags()
     {
-        return $this->belongsToMany('App\Tag')->withTimestamps();
+//        return $this->belongsToMany('App\Tag')->withPivot('id')->withTimestamps();
+        return $this->belongsToMany('App\Tag')->withPivot('id','tagging_counts')->withTimestamps();
     }
 
     Public function likes()

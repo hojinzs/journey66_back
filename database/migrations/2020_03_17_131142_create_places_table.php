@@ -17,7 +17,6 @@ class CreatePlacesTable extends Migration
             $table->id();
             $table->string('name');
             $table->text('description')->nullable();
-            $table->string('like')->default(0);
             $table->double('latitude',12,8);
             $table->double('longitude',12,8);
             $table->string('thumbnail')->nullable();

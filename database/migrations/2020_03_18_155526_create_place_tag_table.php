@@ -17,6 +17,8 @@ class CreatePlaceTagTable extends Migration
             $table->id();
             $table->unsignedBigInteger('place_id');
             $table->unsignedBigInteger('tag_id');
+            $table->unsignedBigInteger('last_comment_id')->nullable();
+            $table->integer('tagging_counts')->nullable();
             $table->timestamps();
 
             $table->foreign('place_id')->references('id')->on('places');

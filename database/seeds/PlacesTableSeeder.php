@@ -1,10 +1,12 @@
 <?php
 
+use App\Tag;
 use Illuminate\Database\Seeder;
 use App\Place;
-use App\Tag;
 use App\User;
 use App\Like;
+use App\PlaceTagComment;
+use Faker\Factory as Faker;
 
 class PlacesTableSeeder extends Seeder
 {
@@ -17,19 +19,33 @@ class PlacesTableSeeder extends Seeder
     {
 
         //
-        factory(Place::class, 20)->create()->each(function ($place) {
-            $tags = Tag::all();
-            $users = User::all()->random(5,10);
+        factory(Place::class, 20)
+            ->create()
+            ->each(function ($place) {
+                $faker = Faker::create();
+                $tags = Tag::all();
+                $users = User::all();
 
-            $place->tags()->attach($tags->random(rand(1,5)));
+                // Set Tag Comments
+                for ($i = 0; $i < 5; $i++){
+                    foreach ($tags->random(3,5) as $tag) {
+                        $tagComment = new PlaceTagComment;
+                        $tagComment->prepareTag($tag);
+                        $tagComment->preparePlace($place);
+                        $tagComment->user()->associate($users->random(1)->first());
+                        $tagComment->content = $faker->text(200);
+                        $tagComment->push();
+                    }
+                }
 
-            foreach ($users as $user)
-            {
-                $like = new Like;
-                $like->user()->associate($user);
+                // Set User Like
+                $users = User::all()->random(5,10);
+                foreach ($users as $user) {
+                    $like = new Like;
+                    $like->user()->associate($user);
 
-                $place->likes()->save($like);
-            }
-        });
+                    $place->likes()->save($like);
+                }
+            });
     }
 }

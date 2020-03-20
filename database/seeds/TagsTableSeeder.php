@@ -13,8 +13,10 @@ class TagsTableSeeder extends Seeder
     public function run()
     {
         //
-        factory(Tag::class, 20)->create()->each(function ($tag) {
-            $tag->make();
-        });
+        factory(Tag::class, 20)
+            ->create();
+//            ->each(function ($tag) {
+//                $tag->make();
+//            });
     }
 }

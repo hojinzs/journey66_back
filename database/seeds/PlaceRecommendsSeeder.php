@@ -13,8 +13,10 @@ class PlaceRecommendsSeeder extends Seeder
     public function run()
     {
         //
-        factory(PlaceRecommend::class, 50)->create()->each(function($placeRecommend){
-           $placeRecommend->make();
-        });
+        factory(PlaceRecommend::class, 50)
+            ->create()
+            ->each(function($placeRecommend){
+                $placeRecommend->make();
+            });
     }
 }

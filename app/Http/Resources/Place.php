@@ -24,7 +24,6 @@ class Place extends JsonResource
                 'latitude' => $this->latitude,
                 'longitude' => $this->longitude,
             ],
-            'like' => $this->like,
             'phone' => $this->phone_number,
             'formattedAddress' => $this->address1.' '.$this->address2,
             'Url' => $this->homepage,

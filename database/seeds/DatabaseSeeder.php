@@ -15,5 +15,6 @@ class DatabaseSeeder extends Seeder
          $this->call(TagsTableSeeder::class);
          $this->call(PlacesTableSeeder::class);
          $this->call(PlaceRecommendsSeeder::class);
+//         $this->call(PlaceTagCommentTableSeeder::class); 미완성
     }
 }
