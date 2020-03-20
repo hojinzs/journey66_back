@@ -19,13 +19,18 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 });
 
 
-//Route::middleware('api')->get('/places', function (Request $request) {
-//    return response("TEST",200);
-//});
-
-//Route::middleware('api')->resource('places', 'placeController');
-
 Route::apiResource('places','API\PlaceController');
+
+Route::middleware('api')
+    ->get('/places/{id}/tags','API\PlaceController@getTags');
+
+Route::middleware('api')
+    ->get('/places/{id}/tags/{tagId}/comments','API\PlaceController@getTagsComments');
+
+Route::middleware('api')
+    ->get('/places/{id}/recommends','API\PlaceController@getRecommends');
+
+
 Route::apiResource('tags','API\TagController');
 
 Route::middleware('api')->get('/test', function (Request $request) {

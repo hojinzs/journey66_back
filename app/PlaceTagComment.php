@@ -12,17 +12,17 @@ use App\Tag;
 class PlaceTagComment extends Model
 {
     //
-    public $prepare_place;
-    public $prepare_tag;
+//    public $prepare_place;
+//    public $prepare_tag;
 
     public function place()
     {
-        return $this->hasOneThrough('App\Place','App\PlaceTag');
+        return $this->belongsTo('App\Place');
     }
 
     public function tag()
     {
-        return $this->hasOneThrough('App\Tag','App\PlaceTag');
+        return $this->belongsTo('App\Tag');
     }
 
     public function user()
@@ -30,23 +30,23 @@ class PlaceTagComment extends Model
         return $this->belongsTo('App\user');
     }
 
-    public function placeTag()
-    {
-        return $this->belongsTo('App\PlaceTag');
-    }
+//    public function placeTag()
+//    {
+//        return $this->belongsTo('App\PlaceTag');
+//    }
 
-    public function preparePlace(Place $place)
-    {
-        $this->prepare_place = $place;
-    }
-
-    public function prepareTag(Tag $tag)
-    {
-        $this->prepare_tag = $tag;
-    }
+//    public function preparePlace(Place $place)
+//    {
+//        $this->prepare_place = $place;
+//    }
+//
+//    public function prepareTag(Tag $tag)
+//    {
+//        $this->prepare_tag = $tag;
+//    }
 
     protected $dispatchesEvents = [
-        'creating' => PlaceTagCommentCreating::class,
+//        'creating' => PlaceTagCommentCreating::class,
         'saved' => PlaceTagCommentSaved::class,
     ];
 }

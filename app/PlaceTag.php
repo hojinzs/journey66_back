@@ -10,10 +10,10 @@ class PlaceTag extends Pivot
     //
     public $incrementing = true;
 
-    public function comments()
-    {
-        $this->hasMany('App\PlaceTagComment');
-    }
+//    public function comments()
+//    {
+//        $this->hasMany('App\PlaceTagComment');
+//    }
 
     public function place()
     {

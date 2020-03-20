@@ -11,7 +11,7 @@ $factory->define(PlaceRecommend::class, function (Faker $faker) {
     return [
         //
         'comment' => $faker->text(200),
-        'place_id' => Place::all()->random(1)[0]->id,
-        'user_id' => User::all()->random(1)[0]->id,
+        'place_id' => Place::all()->random(1)->first()->id,
+        'user_id' => User::all()->random(1)->first()->id,
     ];
 });

@@ -15,13 +15,17 @@ class CreatePlaceTagCommentsTable extends Migration
     {
         Schema::create('place_tag_comments', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('place_tag_id');
+//            $table->unsignedBigInteger('place_tag_id');
+            $table->unsignedBigInteger('place_id');
+            $table->unsignedBigInteger('tag_id');
             $table->unsignedBigInteger('user_id');
             $table->text('content');
             $table->softDeletes();
             $table->timestamps();
 
-            $table->foreign('place_tag_id')->references('id')->on('place_tag');
+//            $table->foreign('place_tag_id')->references('id')->on('place_tag');
+            $table->foreign('place_id')->references('id')->on('places');
+            $table->foreign('tag_id')->references('id')->on('tags');
             $table->foreign('user_id')->references('id')->on('users');
         });
     }

@@ -26,7 +26,17 @@ class PlaceTagCommentCreating
      */
     public function __construct(PlaceTagComment $comment)
     {
-        //
+        $comment->place_tag_id = $this->getFirstOrCreatePlaceTag($comment);
+    }
+
+    /**
+     * Get a exist TagPlace Relation Model or Create One
+     *
+     * @param PlaceTagComment $comment
+     * @return mixed
+     */
+    private function getFirstOrCreatePlaceTag(PlaceTagComment $comment)
+    {
         $place = $comment->prepare_place;
         $tag = $comment->prepare_tag;
 
@@ -34,14 +44,11 @@ class PlaceTagCommentCreating
 
         if($place_tag == null){
             $place->tags()->attach($tag);
-//            $place_tag_id = $place->tags()->wherePivot('tag_id',$tag->id)->first()->pivot->id;
-        } else {
-//            $place_tag_id = $place_tag->id;
         }
 
         $place_tag_id = $place->tags()->wherePivot('tag_id',$tag->id)->first()->pivot->id;
 
-        $comment->place_tag_id = $place_tag_id;
+        return $place_tag_id;
     }
 
     /**
