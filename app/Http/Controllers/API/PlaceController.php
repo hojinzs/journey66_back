@@ -4,6 +4,7 @@ namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
 use App\Http\Resources\Place as PlaceResource;
+use App\Http\Resources\PlaceRecommend as PlaceRecommendResource;
 use App\Place;
 use App\PlaceRecommend;
 use App\PlaceTagComment;
@@ -43,6 +44,7 @@ class PlaceController extends Controller
     public function show($id)
     {
         //
+        return new PlaceResource(Place::find($id));
     }
 
     /**
@@ -82,7 +84,7 @@ class PlaceController extends Controller
 
     public function getRecommends($id)
     {
-        return Place::find($id)->recommends()->paginate(5);
+        return PlaceRecommendResource::collection(PlaceRecommend::where('place_id',$id)->paginate(5));
     }
 
 }

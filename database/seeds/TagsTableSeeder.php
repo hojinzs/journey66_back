@@ -15,8 +15,5 @@ class TagsTableSeeder extends Seeder
         //
         factory(Tag::class, 20)
             ->create();
-//            ->each(function ($tag) {
-//                $tag->make();
-//            });
     }
 }

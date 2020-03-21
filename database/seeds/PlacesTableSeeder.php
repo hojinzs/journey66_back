@@ -27,8 +27,8 @@ class PlacesTableSeeder extends Seeder
                 $users = User::all();
 
                 // Set Tag Comments
-                foreach ($tags->random(3,6) as $tag) {
-                    $rand = rand(5,20);
+                foreach ($tags->random(rand(2,6)) as $tag) {
+                    $rand = rand(5,10);
                     for ($i = 0; $i < $rand ; $i++) {
                         $tagComment = new PlaceTagComment;
                         $tagComment->place()->associate($place);
