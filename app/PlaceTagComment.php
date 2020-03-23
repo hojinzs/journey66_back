@@ -30,20 +30,11 @@ class PlaceTagComment extends Model
         return $this->belongsTo('App\user');
     }
 
-//    public function placeTag()
-//    {
-//        return $this->belongsTo('App\PlaceTag');
-//    }
+    public function likes()
+    {
+        return $this->morphMany('App\Like','like_what');
+    }
 
-//    public function preparePlace(Place $place)
-//    {
-//        $this->prepare_place = $place;
-//    }
-//
-//    public function prepareTag(Tag $tag)
-//    {
-//        $this->prepare_tag = $tag;
-//    }
 
     protected $dispatchesEvents = [
 //        'creating' => PlaceTagCommentCreating::class,

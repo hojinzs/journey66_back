@@ -4,7 +4,7 @@ namespace App\Http\Resources;
 
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class PlaceRecommend extends JsonResource
+class PlaceTagComment extends JsonResource
 {
     /**
      * Transform the resource into an array.
@@ -16,10 +16,11 @@ class PlaceRecommend extends JsonResource
     {
         return [
             'id' => $this->id,
-            'comment' => $this->comment,
+            'comment' => $this->content,
             'author' => $this->user,
             'written_at' => $this->created_at,
             'place' => $this->place,
+            'tag' => $this->tag,
         ];
     }
 }

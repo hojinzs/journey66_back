@@ -77,9 +77,14 @@ class PlaceController extends Controller
 
     public function getTagsComments($id,$tagId)
     {
-        return PlaceTagComment::where('place_id',$id)
-            ->where('tag_id',$tagId)
-            ->paginate(5);
+        return \App\Http\Resources\PlaceTagComment::collection(
+            PlaceTagComment::where('place_id',$id)
+                ->where('tag_id',$tagId)
+                ->paginate(5)
+        );
+//        return PlaceTagComment::where('place_id',$id)
+//            ->where('tag_id',$tagId)
+//            ->paginate(5);
     }
 
     public function getRecommends($id)
