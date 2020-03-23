@@ -17,6 +17,7 @@ class PlaceTagComment extends JsonResource
         return [
             'id' => $this->id,
             'comment' => $this->content,
+            'likes' => count($this->likes),
             'author' => $this->user,
             'written_at' => $this->created_at,
             'place' => $this->place,

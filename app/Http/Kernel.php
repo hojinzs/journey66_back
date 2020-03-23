@@ -52,7 +52,7 @@ class Kernel extends HttpKernel
      * @var array
      */
     protected $routeMiddleware = [
-        'cors' => \App\Http\Middleware\Cors::class,
+        'cors' => \App\Http\Middleware\Cors::class, // remove when use sanctum
         'auth' => \App\Http\Middleware\Authenticate::class,
         'auth.basic' => \Illuminate\Auth\Middleware\AuthenticateWithBasicAuth::class,
         'bindings' => \Illuminate\Routing\Middleware\SubstituteBindings::class,

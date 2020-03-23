@@ -36,12 +36,18 @@ class PlacesTableSeeder extends Seeder
                         $tagComment->user()->associate($users->random(1)->first());
                         $tagComment->content = $faker->text(200);
                         $tagComment->push();
+
+                        //set Tag Comment like
+                        foreach ($users->random(rand(5,10)) as $user){
+                            $like = new Like;
+                            $like->user()->associate($user);
+                            $tagComment->likes()->save($like);
+                        }
                     }
                 }
 
                 // Set User Like
-                $users = User::all()->random(5,10);
-                foreach ($users as $user) {
+                foreach ($users->random(rand(5,10)) as $user) {
                     $like = new Like;
                     $like->user()->associate($user);
 

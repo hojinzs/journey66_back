@@ -2,6 +2,8 @@
 
 use Illuminate\Database\Seeder;
 use App\PlaceRecommend;
+use App\User;
+use App\Like;
 
 class PlaceRecommendsSeeder extends Seeder
 {
@@ -16,7 +18,15 @@ class PlaceRecommendsSeeder extends Seeder
         factory(PlaceRecommend::class, 300)
             ->create()
             ->each(function($placeRecommend){
-                $placeRecommend->make();
+                $users = User::all();
+
+                // set Recommend like
+                foreach ($users->random(rand(0,10)) as $user){
+                    $like = new Like;
+                    $like->user()->associate($user);
+
+                    $placeRecommend->likes()->save($like);
+                }
             });
     }
 }

@@ -74,7 +74,7 @@ class RouteServiceProvider extends ServiceProvider
     {
         Route::prefix('v1')
             ->middleware('api')
-            ->middleware('cors')
+            ->middleware('cors') // remove when use sanctum
             ->namespace($this->namespace)
             ->group(base_path('routes/api.php'));
     }
