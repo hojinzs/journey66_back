@@ -13,12 +13,12 @@ class PlaceRecommend extends Model
 
     public function user()
     {
-        return $this->belongsTo('App\user');
+        return $this->belongsTo('App\User');
     }
 
     public function place()
     {
-        return $this->belongsTo('App\place');
+        return $this->belongsTo('App\Place');
     }
 
     Public function likes()

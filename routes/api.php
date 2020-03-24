@@ -14,10 +14,20 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::middleware('auth:api')->get('/user', function (Request $request) {
-    return $request->user();
+Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
+    return response($request->user(),200);
 });
 
+Route::middleware('api')->get('/user/login',function (Request $request) {
+    $userId = $request->header('User-Id');
+    $token = \App\User::find($userId)->createToken('user-token');
+    return $token->plainTextToken;
+});
+
+Route::middleware('auth:sanctum')->get('/user/placetagcomment',function(Request $request){
+    return \App\PlaceTagComment::where('user_id',$request->user()->id)->get();
+//        return response('TEST',200);
+    });
 
 Route::apiResource('places','API\PlaceController');
 
