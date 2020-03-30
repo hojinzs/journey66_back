@@ -14,35 +14,57 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-    return response($request->user(),200);
-});
+Route::domain('api.'.env('APP_ROUTE_DOMAIN','localhost'))->group(function(){
 
-Route::middleware('api')->get('/user/login',function (Request $request) {
-    $userId = $request->header('User-Id');
-    $token = \App\User::find($userId)->createToken('user-token');
-    return $token->plainTextToken;
-});
+    /**
+     * Place Routes
+     */
+    Route::prefix('places')->name('places.')->group(function() {
+        Route::apiResource('/','API\PlaceController');
 
-Route::middleware('auth:sanctum')->get('/user/placetagcomment',function(Request $request){
-    return \App\PlaceTagComment::where('user_id',$request->user()->id)->get();
-//        return response('TEST',200);
+        Route::get('/{id}/tags','API\PlaceController@getTags')
+            ->name('tags');
+
+        Route::get('/{id}/tags/{tagId}/comments','API\PlaceController@getTagsComments')
+            ->name('tags.comments');
+
+        Route::get('/{id}/recommends','API\PlaceController@getRecommends')
+            ->name('recommends');
+
     });
 
-Route::apiResource('places','API\PlaceController');
+    /**
+     * Tag Routes
+     */
+    Route::prefix('tags')->name('tags.')->group(function() {
 
-Route::middleware('api')
-    ->get('/places/{id}/tags','API\PlaceController@getTags');
+        Route::apiResource('/','API\TagController');
 
-Route::middleware('api')
-    ->get('/places/{id}/tags/{tagId}/comments','API\PlaceController@getTagsComments');
+    });
 
-Route::middleware('api')
-    ->get('/places/{id}/recommends','API\PlaceController@getRecommends');
+    /**
+     * USER Routes
+     */
+    Route::prefix('user')->name('user.')->group(function() {
+
+        Route::middleware('auth:sanctum')
+            ->get('/','API\UserController@whoami')
+            ->name('whoami');
+
+        Route::post('/login','API\AuthController@login')
+            ->name('login');
+
+        Route::post('/signup', 'API\AuthController@register')
+            ->name('register');
+
+    });
 
 
-Route::apiResource('tags','API\TagController');
+    /**
+     * TEST
+     */
+    Route::middleware('api')->get('/test', function (Request $request) {
+        return response("TEST",200);
+    });
 
-Route::middleware('api')->get('/test', function (Request $request) {
-    return response("TEST",200);
 });

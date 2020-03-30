@@ -15,8 +15,10 @@
         "laravel/framework": "^7.0",
         "laravel/passport": "^8.4",
         "laravel/sanctum": "^2.0",
+        "laravel/socialite": "^4.3",
         "laravel/tinker": "^2.0",
-        "laravel/ui": "^2.0"
+        "laravel/ui": "^2.0",
+        "socialiteproviders/strava": "dev-master"
     },
     "require-dev": {
         "facade/ignition": "^2.0",

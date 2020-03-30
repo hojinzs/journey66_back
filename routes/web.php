@@ -13,10 +13,29 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+
+Route::domain('auth.'.env('APP_ROUTE_DOMAIN','localhost'))->name('auth.')->group(function(){
+    Route::get('/',function () {
+        return response('TEST',200);
+    });
+
+    Route::prefix('strava')->name('strava.')->group(function() {
+
+        Route::get('/signin','StravaController@redirectTo')
+            ->middleware('auth:token')
+            ->name('signin');
+
+        Route::any('/authorized','StravaController@callback')
+            ->name('callback');
+
+    });
+});
+
+
 Route::get('/', function () {
     return view('welcome');
 });
 
-Auth::routes();
+//Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');

@@ -30,4 +30,10 @@ return [
         'region' => env('AWS_DEFAULT_REGION', 'us-east-1'),
     ],
 
+    'strava' => [
+        'client_id' => env('STRAVA_KEY'),
+        'client_secret' => env('STRAVA_SECRET'),
+        'redirect' => env('STRAVA_REDIRECT_URL'),
+    ],
+
 ];
