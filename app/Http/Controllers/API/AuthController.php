@@ -13,8 +13,10 @@ use Illuminate\Support\Str;
 class AuthController extends Controller
 {
     public function login(Request $request){
-        $user = User::where('email',$request->email)->get()->first();
-        return $this->setToken($user,'user-token');
+        $user = User::where('email',$request->email)->first();
+        $token = $user->setToken('web-api-token');
+
+        return response($token,200);
     }
 
     public function register(Request $request){
@@ -24,20 +26,21 @@ class AuthController extends Controller
             return response()->json(['error' => $validator->errors()], 401);
         }
         $user = $this->create($request->all());
-        return $this->setToken($user,'user-token');
+        $token = $user->setToken('web-api-token');
+        return response($token,200);
     }
 
-    /**
-     * Set a User Token
-     *
-     * @param User $user
-     * @param String $tokenName
-     * @return \Illuminate\Contracts\Routing\ResponseFactory|\Illuminate\Http\Response
-     */
-    protected function setToken(User $user,$tokenName){
-        $token = $user->createToken($tokenName);
-        return response($token->plainTextToken,200);
-    }
+//    /**
+//     * Set a User Token
+//     *
+//     * @param User $user
+//     * @param String $tokenName
+//     * @return \Illuminate\Contracts\Routing\ResponseFactory|\Illuminate\Http\Response
+//     */
+//    protected function setToken(User $user,$tokenName){
+//        $token = $user->createToken($tokenName);
+//        return response($token->plainTextToken,200);
+//    }
 
     /**
      * Get a validator for an incoming registration request.
@@ -62,12 +65,7 @@ class AuthController extends Controller
      */
     protected function create(array $data)
     {
-        return User::forceCreate([
-            'name' => $data['name'],
-            'email' => $data['email'],
-            'password' => Hash::make($data['password']),
-            'api_token' => Str::random(30),
-        ]);
+        return User::newUser($data);
     }
 
 }

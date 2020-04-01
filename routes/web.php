@@ -25,6 +25,9 @@ Route::domain('auth.'.env('APP_ROUTE_DOMAIN','localhost'))->name('auth.')->group
             ->middleware('auth:token')
             ->name('signin');
 
+        Route::get('/signup','StravaController@redirectTo')
+            ->name('signup');
+
         Route::any('/authorized','StravaController@callback')
             ->name('callback');
 

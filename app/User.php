@@ -5,6 +5,8 @@ namespace App;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Str;
 use Laravel\Sanctum\HasApiTokens;
 
 
@@ -39,7 +41,11 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
-    public function getProviderToken($provider)
+    /**
+     * @param string $provider
+     * @return string access_token | null
+     */
+    public function getProviderToken(string $provider)
     {
         $token = ProviderToken::where('provider',$provider)->where('user_id',$this->id)->first();
         if($token){
@@ -48,4 +54,33 @@ class User extends Authenticatable
             return null;
         }
     }
+
+    /**
+     * Set a User Token
+     *
+     * @param User $user
+     * @param String $tokenName
+     * @return \Illuminate\Contracts\Routing\ResponseFactory|\Illuminate\Http\Response
+     */
+    public function setToken($tokenName){
+        $token = $this->createToken($tokenName);
+        return $token->plainTextToken;
+    }
+
+    /**
+     * Create a new user instance after a valid registration.
+     *
+     * @param  array  $data
+     * @return \App\User
+     */
+    public static function newUser(array $data)
+    {
+        return User::forceCreate([
+            'name' => $data['name'],
+            'email' => $data['email'],
+            'password' => Hash::make($data['password']),
+            'api_token' => Str::random(30),
+        ]);
+    }
+
 }

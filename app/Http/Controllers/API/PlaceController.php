@@ -70,26 +70,23 @@ class PlaceController extends Controller
         //
     }
 
-    public function getTags($id)
+    public function getTags($place)
     {
-        return TagResource::collection(Place::find($id)->tags()->get());
+        return TagResource::collection(Place::find($place)->tags()->get());
     }
 
-    public function getTagsComments($id,$tagId)
+    public function getTagsComments($place,$tag)
     {
         return \App\Http\Resources\PlaceTagComment::collection(
-            PlaceTagComment::where('place_id',$id)
-                ->where('tag_id',$tagId)
+            PlaceTagComment::where('place_id',$place)
+                ->where('tag_id',$tag)
                 ->paginate(5)
         );
-//        return PlaceTagComment::where('place_id',$id)
-//            ->where('tag_id',$tagId)
-//            ->paginate(5);
     }
 
-    public function getRecommends($id)
+    public function getRecommends($place)
     {
-        return PlaceRecommendResource::collection(PlaceRecommend::where('place_id',$id)->paginate(5));
+        return PlaceRecommendResource::collection(PlaceRecommend::where('place_id',$place)->paginate(5));
     }
 
 }

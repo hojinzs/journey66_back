@@ -19,16 +19,16 @@ Route::domain('api.'.env('APP_ROUTE_DOMAIN','localhost'))->group(function(){
     /**
      * Place Routes
      */
+    Route::apiResource('places','API\PlaceController');
     Route::prefix('places')->name('places.')->group(function() {
-        Route::apiResource('/','API\PlaceController');
 
-        Route::get('/{id}/tags','API\PlaceController@getTags')
+        Route::get('/{place}/tags','API\PlaceController@getTags')
             ->name('tags');
 
-        Route::get('/{id}/tags/{tagId}/comments','API\PlaceController@getTagsComments')
+        Route::get('/{place}/tags/{tag}/comments','API\PlaceController@getTagsComments')
             ->name('tags.comments');
 
-        Route::get('/{id}/recommends','API\PlaceController@getRecommends')
+        Route::get('/{place}/recommends','API\PlaceController@getRecommends')
             ->name('recommends');
 
     });
@@ -36,9 +36,8 @@ Route::domain('api.'.env('APP_ROUTE_DOMAIN','localhost'))->group(function(){
     /**
      * Tag Routes
      */
+    Route::apiResource('tags','API\TagController');
     Route::prefix('tags')->name('tags.')->group(function() {
-
-        Route::apiResource('/','API\TagController');
 
     });
 
