@@ -31,6 +31,7 @@ return [
     ],
 
     'strava' => [
+        'refreash_url' => 'https://www.strava.com/api/v3/oauth/token',
         'client_id' => env('STRAVA_KEY'),
         'client_secret' => env('STRAVA_SECRET'),
         'redirect' => env('STRAVA_REDIRECT_URL'),

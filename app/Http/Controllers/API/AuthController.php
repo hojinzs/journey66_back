@@ -5,42 +5,33 @@ namespace App\Http\Controllers\API;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\User;
-use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
-use Illuminate\Support\Str;
-
 
 class AuthController extends Controller
 {
-    public function login(Request $request){
+    public function login(Request $request)
+    {
         $user = User::where('email',$request->email)->first();
-        $token = $user->setToken('web-api-token');
 
-        return response($token,200);
+        return $this->returnUserData($user);
     }
 
-    public function register(Request $request){
+    public function token()
+    {
+        return $this->returnUserData(Auth::user());
+    }
 
+    public function register(Request $request)
+    {
         $validator = $this->validator($request->all());
         if ($validator->fails()) {
             return response()->json(['error' => $validator->errors()], 401);
         }
         $user = $this->create($request->all());
-        $token = $user->setToken('web-api-token');
-        return response($token,200);
-    }
 
-//    /**
-//     * Set a User Token
-//     *
-//     * @param User $user
-//     * @param String $tokenName
-//     * @return \Illuminate\Contracts\Routing\ResponseFactory|\Illuminate\Http\Response
-//     */
-//    protected function setToken(User $user,$tokenName){
-//        $token = $user->createToken($tokenName);
-//        return response($token->plainTextToken,200);
-//    }
+        return $this->returnUserData($user);
+    }
 
     /**
      * Get a validator for an incoming registration request.
@@ -67,5 +58,25 @@ class AuthController extends Controller
     {
         return User::newUser($data);
     }
+
+    /**
+     * Response to client with user data
+     *
+     * @param User $user
+     * @return \Illuminate\Contracts\Routing\ResponseFactory|\Illuminate\Http\Response
+     */
+    protected function returnUserData(User $user)
+    {
+        $token = $user->setToken('web-api-token');
+        $response = [
+            'user' => $user,
+            'token' => $token,
+            'provider' => [
+                'strava' => $user->providerTokens()->where('provider','strava')->first(),
+            ]
+        ];
+        return response($response,200);
+    }
+
 
 }

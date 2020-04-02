@@ -41,26 +41,27 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
-    /**
-     * @param string $provider
-     * @return string access_token | null
-     */
-    public function getProviderToken(string $provider)
+    Public function providerTokens()
     {
-        $token = ProviderToken::where('provider',$provider)->where('user_id',$this->id)->first();
-        if($token){
-            return $token->access_token;
-        } else {
-            return null;
-        }
+        return $this->hasMany('App\ProviderToken');
     }
 
     /**
-     * Set a User Token
+     * get Users Provider Token
      *
-     * @param User $user
-     * @param String $tokenName
-     * @return \Illuminate\Contracts\Routing\ResponseFactory|\Illuminate\Http\Response
+     * @param $provider
+     * @return \Illuminate\Database\Eloquent\Model|\Illuminate\Database\Eloquent\Relations\HasMany|object|null
+     */
+    Public function getProvider($provider)
+    {
+        return $this->providerTokens()->where('provider',$provider)->first();
+    }
+
+    /**
+     * Set a User API Token
+     *
+     * @param $tokenName
+     * @return string
      */
     public function setToken($tokenName){
         $token = $this->createToken($tokenName);

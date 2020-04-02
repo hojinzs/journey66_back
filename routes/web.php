@@ -21,12 +21,12 @@ Route::domain('auth.'.env('APP_ROUTE_DOMAIN','localhost'))->name('auth.')->group
 
     Route::prefix('strava')->name('strava.')->group(function() {
 
-        Route::get('/signin','StravaController@redirectTo')
-            ->middleware('auth:token')
-            ->name('signin');
-
         Route::get('/signup','StravaController@redirectTo')
             ->name('signup');
+
+        Route::get('/integrate','StravaController@redirectTo')
+            ->middleware('auth:token')
+            ->name('integrate');
 
         Route::any('/authorized','StravaController@callback')
             ->name('callback');

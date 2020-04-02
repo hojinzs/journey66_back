@@ -49,6 +49,7 @@ return [
         'token' => [
             'driver' => 'token',
             'provider' => 'users',
+//            'hash' => true,
         ]
     ],
 

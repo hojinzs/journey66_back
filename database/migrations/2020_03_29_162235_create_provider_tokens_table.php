@@ -18,10 +18,11 @@ class CreateProviderTokensTable extends Migration
             $table->unsignedBigInteger('user_id');
             $table->string('provider');
             $table->string('provider_id');
-            $table->string('username');
+            $table->string('scope')->nullable();
+            $table->string('username')->nullable();
             $table->string('token_type');
             $table->string('access_token');
-            $table->string('refresh_token');
+            $table->string('refresh_token')->nullable();
             $table->integer('expires_in');
             $table->timestamps();
 

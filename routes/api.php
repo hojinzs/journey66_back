@@ -46,15 +46,45 @@ Route::domain('api.'.env('APP_ROUTE_DOMAIN','localhost'))->group(function(){
      */
     Route::prefix('user')->name('user.')->group(function() {
 
-        Route::middleware('auth:sanctum')
-            ->get('/','API\UserController@whoami')
+        Route::get('/','API\UserController@whoami')
+            ->middleware('auth:sanctum')
             ->name('whoami');
 
-        Route::post('/login','API\AuthController@login')
-            ->name('login');
+        /**
+         * Login
+         */
+        Route::prefix('login')->name('login.')->group(function() {
 
+            Route::post('token','API\AuthController@token')
+                ->middleware('auth:sanctum')
+                ->name('login');
+
+            Route::post('email','API\AuthController@login')
+                ->name('login');
+
+        });
+
+        /**
+         * Register
+         */
         Route::post('/signup', 'API\AuthController@register')
             ->name('register');
+
+        /**
+         * Provider(ex: STRAVA) Manage
+         */
+        Route::prefix('provider')->name('provider.')->group(function() {
+
+            Route::get('','API\ProviderController@show')
+                ->middleware('auth:sanctum')
+                ->name('show');
+
+            // Provider Token Refreash
+            Route::post('refresh','API\ProviderController@update')
+                ->middleware('auth:sanctum')
+                ->name('refresh');
+
+        });
 
     });
 

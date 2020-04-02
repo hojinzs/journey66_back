@@ -18,10 +18,14 @@ class UserController extends Controller
     public function whoami(Request $request)
     {
         if(Auth::check()){
+
+            $user = Auth::user();
             $response = [
-                'user' => $request->user(),
-                'api_token' => $request->user()->api_token,
-                'strava' => $request->user()->getProviderToken('strava'),
+                'user' => $user,
+                'api_token' => $user->api_token,
+                'provider' => [
+                    'strava' => $user->providerTokens()->where('provider','strava')->first(),
+                ]
             ];
             return response($response,200);
         }
