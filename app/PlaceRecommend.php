@@ -11,6 +11,8 @@ class PlaceRecommend extends Model
     //
     use SoftDeletes;
 
+    protected $fillable = ['comment'];
+
     public function user()
     {
         return $this->belongsTo('App\User');

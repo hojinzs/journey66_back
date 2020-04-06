@@ -84,9 +84,4 @@ class PlaceController extends Controller
         );
     }
 
-    public function getRecommends($place)
-    {
-        return PlaceRecommendResource::collection(PlaceRecommend::where('place_id',$place)->paginate(5));
-    }
-
 }
