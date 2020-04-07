@@ -15,14 +15,15 @@ class PlaceRecommendController extends Controller
         $this->middleware('auth:sanctum')->only(['store','destroy']);
     }
 
-
     public function index(Place $place)
     {
-        $recommends = PlaceRecommend::where('place_id',$place->id)
-            ->where('hidden',false)
-            ->paginate(5);
-
-        return PlaceRecommendResource::collection($recommends);
+        $recommends = PlaceRecommend::where('place_id',$place->id);
+        $recommends->where('hidden',false);
+        return response(
+            PlaceRecommendResource::collection(
+                $recommends->paginate(5)
+            )
+        );
     }
 
     public function store(Request $request,Place $place)
@@ -45,4 +46,17 @@ class PlaceRecommendController extends Controller
         $recommend->delete();
         return response('PlaceRecommend destroy success',200);
     }
+
+    public function owned(Request $request, Place $place)
+    {
+        $recommends = PlaceRecommend::where('place_id',$place->id);
+        $recommends->where('user_id',$request->user()->id);
+        return response(
+            PlaceRecommendResource::collection(
+                $recommends->get()
+            )
+        );
+    }
+
+
 }

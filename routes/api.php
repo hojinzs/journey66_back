@@ -23,18 +23,17 @@ Route::domain('api.'.env('APP_ROUTE_DOMAIN','localhost'))->group(function(){
         ->only(['index','show']);
     Route::apiResource('places.recommends','API\PlaceRecommendController')
         ->only(['index','store','show','destroy']);
-    Route::prefix('places')->name('places.')->group(function() {
+    Route::apiResource('places.tags','API\PlaceTagController')
+        ->only(['index','show']);
+    Route::apiResource('places.tags.comments','API\PlaceTagCommentController')
+        ->only(['index']);
 
-        Route::get('/{place}/tags','API\PlaceController@getTags')
-            ->name('tags');
-
-        Route::get('/{place}/tags/{tag}/comments','API\PlaceController@getTagsComments')
-            ->name('tags.comments');
+//    Route::prefix('places')->name('places.')->group(function() {
 //
-//        Route::get('/{place}/recommends','API\PlaceController@getRecommends')
-//            ->name('recommends');
-
-    });
+////        Route::get('/{place}/tags/{tag}/comments','API\PlaceController@comments')
+////            ->name('tags.comments');
+//
+//    });
 
     /**
      * Tag Routes
@@ -43,6 +42,20 @@ Route::domain('api.'.env('APP_ROUTE_DOMAIN','localhost'))->group(function(){
     Route::prefix('tags')->name('tags.')->group(function() {
 
     });
+
+    /**
+     * Like Routes
+     */
+//    Route::post('places/{place}/like',function ($place) {
+//        return $place;
+//    })->name('places.like');
+    Route::post('places/{place}/like','API\LikeController@place')
+        ->name('places.like');
+    Route::post('places/recommends/{placeRecommend}/like','API\LikeController@placeRecommend')
+        ->name('places.recommends.like');
+    Route::post('places/tags/comments/{placeTagComment}/like','API\LikeController@place')
+        ->name('places.tags.comments.like');
+
 
     /**
      * USER Routes
@@ -88,6 +101,17 @@ Route::domain('api.'.env('APP_ROUTE_DOMAIN','localhost'))->group(function(){
                 ->name('refresh');
 
         });
+
+        /**
+         * User Owned Resources
+         */
+        Route::get('places/{place}/recommends','API\PlaceRecommendController@owned')
+            ->middleware('auth:sanctum')
+            ->name('places.recommends');
+
+        Route::get('places/{place}/tags/{tag}/comments','API\PlaceTagCommentController@owned')
+            ->middleware('auth:sanctum')
+            ->name('places.tags.comments');
 
     });
 

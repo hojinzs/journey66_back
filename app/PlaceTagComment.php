@@ -3,11 +3,8 @@
 namespace App;
 
 
-use App\Events\PlaceTagCommentCreating;
-use App\Events\PlaceTagCommentSaved;
 use Illuminate\Database\Eloquent\Model;
-use App\Place;
-use App\Tag;
+use App\Events\PlaceTagCommentSaved;
 
 class PlaceTagComment extends Model
 {
