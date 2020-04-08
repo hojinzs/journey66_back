@@ -26,7 +26,7 @@ Route::domain('api.'.env('APP_ROUTE_DOMAIN','localhost'))->group(function(){
     Route::apiResource('places.tags','API\PlaceTagController')
         ->only(['index','show']);
     Route::apiResource('places.tags.comments','API\PlaceTagCommentController')
-        ->only(['index']);
+        ->only(['index','store','destroy']);
 
 //    Route::prefix('places')->name('places.')->group(function() {
 //
@@ -120,7 +120,7 @@ Route::domain('api.'.env('APP_ROUTE_DOMAIN','localhost'))->group(function(){
      * TEST
      */
     Route::middleware('api')->get('/test', function (Request $request) {
-        return response("TEST",200);
+        return response($request,200);
     });
 
 });

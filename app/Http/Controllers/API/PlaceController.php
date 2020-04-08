@@ -12,13 +12,12 @@ class PlaceController extends Controller
     /**
      * Display a listing of the resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\Resources\Json\AnonymousResourceCollection
      */
     public function index()
     {
         //
-        $places = PlaceResource::collection(Place::paginate(10));
-        return response($places);
+        return PlaceResource::collection(Place::paginate(10));
     }
 
 //    /**
@@ -36,13 +35,12 @@ class PlaceController extends Controller
      * Display the specified resource.
      *
      * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @return PlaceResource
      */
     public function show($id)
     {
         //
-        $place = new PlaceResource(Place::find($id));
-        return response($place);
+        return new PlaceResource(Place::find($id));
     }
 
 //    /**

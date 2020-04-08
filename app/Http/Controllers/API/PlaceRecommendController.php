@@ -19,10 +19,8 @@ class PlaceRecommendController extends Controller
     {
         $recommends = PlaceRecommend::where('place_id',$place->id);
         $recommends->where('hidden',false);
-        return response(
-            PlaceRecommendResource::collection(
+        return PlaceRecommendResource::collection(
                 $recommends->paginate(5)
-            )
         );
     }
 
@@ -35,27 +33,33 @@ class PlaceRecommendController extends Controller
 
         $place->recommends()->save($placeRecommend);
 
-        return response($placeRecommend,201);
+        return new PlaceRecommendResource($placeRecommend);
     }
 
-    public function destroy(Request $request, Place $place, PlaceRecommend $recommend)
+    public function destroy(Request $request, $place, PlaceRecommend $recommend)
     {
-        if($recommend->user_id != $request->user()->id) abort(403);
-        if($recommend->place_id != $place->id) abort(406);
+        try
+        {
+            if($recommend->user_id != $request->user()->id) abort(403);
+            if($recommend->place_id != $place) abort(404);
 
-        $recommend->delete();
-        return response('PlaceRecommend destroy success',200);
+            $recommend->delete();
+            return response('PlaceRecommend destroy success',200);
+        }
+        catch (\Exception $exception)
+        {
+            return response($exception, 400);
+        }
     }
 
     public function owned(Request $request, Place $place)
     {
         $recommends = PlaceRecommend::where('place_id',$place->id);
         $recommends->where('user_id',$request->user()->id);
-        return response(
-            PlaceRecommendResource::collection(
-                $recommends->get()
-            )
+        return PlaceRecommendResource::collection(
+            $recommends->get()
         );
+
     }
 
 

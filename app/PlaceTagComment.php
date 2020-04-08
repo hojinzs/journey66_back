@@ -8,10 +8,6 @@ use App\Events\PlaceTagCommentSaved;
 
 class PlaceTagComment extends Model
 {
-    //
-//    public $prepare_place;
-//    public $prepare_tag;
-
     public function place()
     {
         return $this->belongsTo('App\Place');
