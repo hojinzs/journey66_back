@@ -17,7 +17,6 @@ class Place extends Model
 
     public function tags()
     {
-//        return $this->belongsToMany('App\Tag')->withPivot('id')->withTimestamps();
         return $this->belongsToMany('App\Tag')->withPivot('id','tagging_counts')->withTimestamps();
     }
 
@@ -34,6 +33,17 @@ class Place extends Model
     Public function recommends()
     {
         return $this->hasMany('App\PlaceRecommend')->where(['hidden' => false]);
+    }
+
+    public function userLike(User $user = null)
+    {
+        if($user) {
+            $like = $this->likes()->where('user_id',$user->id)->first();
+            if($like) {
+                return true;
+            }
+        }
+        return false;
     }
 
 }

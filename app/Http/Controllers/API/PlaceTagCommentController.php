@@ -19,8 +19,10 @@ class PlaceTagCommentController extends Controller
     public function index(Place $place, Tag $tag)
     {
 
-        $comments = PlaceTagComment::where('place_id',$place->id)
-            ->where('tag_id',$tag->id);
+        $comments = PlaceTagComment::withCount('likes')
+            ->where('place_id',$place->id)
+            ->where('tag_id',$tag->id)
+            ->orderBy('likes_count','desc');
 
         return \App\Http\Resources\PlaceTagComment::collection($comments->paginate(5));
     }
@@ -56,10 +58,9 @@ class PlaceTagCommentController extends Controller
         }
     }
 
-    public function owned(Request $request, Place $place, Tag $tag)
+    public function owned(Request $request, Place $place)
     {
         $comments = PlaceTagComment::where('place_id',$place->id)
-            ->where('tag_id',$tag->id)
             ->where('user_id',$request->user()->id);
 
         return \App\Http\Resources\PlaceTagComment::collection($comments->get());

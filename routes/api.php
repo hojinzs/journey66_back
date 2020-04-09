@@ -13,8 +13,7 @@ use Illuminate\Support\Facades\Route;
 | is assigned the "api" middleware group. Enjoy building your API!
 |
 */
-
-Route::domain('api.'.env('APP_ROUTE_DOMAIN','localhost'))->group(function(){
+Route::domain(env('APP_API_PREFIX').'.'.env('APP_ROOT_DOMAIN','localhost'))->group(function(){
 
     /**
      * Place Routes
@@ -53,7 +52,7 @@ Route::domain('api.'.env('APP_ROUTE_DOMAIN','localhost'))->group(function(){
         ->name('places.like');
     Route::post('places/recommends/{placeRecommend}/like','API\LikeController@placeRecommend')
         ->name('places.recommends.like');
-    Route::post('places/tags/comments/{placeTagComment}/like','API\LikeController@place')
+    Route::post('places/tags/comments/{placeTagComment}/like','API\LikeController@placeTagCommment')
         ->name('places.tags.comments.like');
 
 
@@ -109,7 +108,7 @@ Route::domain('api.'.env('APP_ROUTE_DOMAIN','localhost'))->group(function(){
             ->middleware('auth:sanctum')
             ->name('places.recommends');
 
-        Route::get('places/{place}/tags/{tag}/comments','API\PlaceTagCommentController@owned')
+        Route::get('places/{place}/tags/comments','API\PlaceTagCommentController@owned')
             ->middleware('auth:sanctum')
             ->name('places.tags.comments');
 

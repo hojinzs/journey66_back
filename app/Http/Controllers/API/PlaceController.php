@@ -5,6 +5,7 @@ namespace App\Http\Controllers\API;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\Place as PlaceResource;
 use App\Place;
+use http\Client\Request;
 
 class PlaceController extends Controller
 {
@@ -17,7 +18,9 @@ class PlaceController extends Controller
     public function index()
     {
         //
-        return PlaceResource::collection(Place::paginate(10));
+
+        $place = Place::withCount(['likes','recommends']);
+        return PlaceResource::collection($place->paginate(10));
     }
 
 //    /**
@@ -40,7 +43,8 @@ class PlaceController extends Controller
     public function show($id)
     {
         //
-        return new PlaceResource(Place::find($id));
+        $place = Place::withCount(['likes','recommends'])->find($id);
+        return new PlaceResource($place);
     }
 
 //    /**

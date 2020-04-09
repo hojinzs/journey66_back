@@ -24,4 +24,9 @@ class PlaceTag extends Pivot
         $this->belongsTo('App\Tag');
     }
 
+//    public function tagging()
+//    {
+//        $this->loadCount($this->tag());
+//    }
+
 }

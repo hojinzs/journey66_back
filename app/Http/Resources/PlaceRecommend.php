@@ -18,9 +18,11 @@ class PlaceRecommend extends JsonResource
             'id' => $this->id,
             'comment' => $this->comment,
             'likes' => count($this->likes),
+            'user_like' => $this->userLike($request->user('sanctum')),
             'author' => $this->user,
             'written_at' => $this->created_at,
             'place' => $this->place,
+            'hidden' => $this->hidden,
         ];
     }
 }

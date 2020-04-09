@@ -28,6 +28,17 @@ class PlaceRecommend extends Model
         return $this->morphMany('App\Like','like_what');
     }
 
+    public function userLike(User $user = null)
+    {
+        if($user) {
+            $like = $this->likes()->where('user_id',$user->id)->first();
+            if($like) {
+                return true;
+            }
+        }
+        return false;
+    }
+
     protected $dispatchesEvents = [
         'saved' => PlaceRecommendSaved::class,
     ];
