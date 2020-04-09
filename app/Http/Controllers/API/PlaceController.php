@@ -18,7 +18,6 @@ class PlaceController extends Controller
     public function index()
     {
         //
-
         $place = Place::withCount(['likes','recommends']);
         return PlaceResource::collection($place->paginate(10));
     }

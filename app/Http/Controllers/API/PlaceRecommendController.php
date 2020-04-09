@@ -62,5 +62,11 @@ class PlaceRecommendController extends Controller
 
     }
 
+    public function pinned(Place $place)
+    {
+        $recommends = $place->recommends()->withCount('likes')->orderBy('likes_count','desc')->first();
+        return new PlaceRecommendResource($recommends);
+    }
+
 
 }

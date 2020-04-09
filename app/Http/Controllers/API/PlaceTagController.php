@@ -14,6 +14,8 @@ class PlaceTagController extends Controller
     //
     public function index(Place $place)
     {
-        return TagResource::collection($place->tags()->get());
+        $tags = $place->tags()->orderBy('tagging_counts');
+
+        return TagResource::collection($tags->get());
     }
 }

@@ -20,19 +20,17 @@ Route::domain(env('APP_API_PREFIX').'.'.env('APP_ROOT_DOMAIN','localhost'))->gro
      */
     Route::apiResource('places','API\PlaceController')
         ->only(['index','show']);
+
     Route::apiResource('places.recommends','API\PlaceRecommendController')
-        ->only(['index','store','show','destroy']);
+        ->only(['index','store','destroy']);
+    Route::get('places/{place}/recommends/pinned','API\PlaceRecommendController@pinned')
+        ->name('places.recommends.pinned');
+
     Route::apiResource('places.tags','API\PlaceTagController')
         ->only(['index','show']);
+
     Route::apiResource('places.tags.comments','API\PlaceTagCommentController')
         ->only(['index','store','destroy']);
-
-//    Route::prefix('places')->name('places.')->group(function() {
-//
-////        Route::get('/{place}/tags/{tag}/comments','API\PlaceController@comments')
-////            ->name('tags.comments');
-//
-//    });
 
     /**
      * Tag Routes
@@ -45,9 +43,6 @@ Route::domain(env('APP_API_PREFIX').'.'.env('APP_ROOT_DOMAIN','localhost'))->gro
     /**
      * Like Routes
      */
-//    Route::post('places/{place}/like',function ($place) {
-//        return $place;
-//    })->name('places.like');
     Route::post('places/{place}/like','API\LikeController@place')
         ->name('places.like');
     Route::post('places/recommends/{placeRecommend}/like','API\LikeController@placeRecommend')
