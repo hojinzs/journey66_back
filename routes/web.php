@@ -14,7 +14,7 @@ use Illuminate\Support\Facades\Route;
 */
 
 
-Route::domain('auth.'.env('APP_ROUTE_DOMAIN','localhost'))->name('auth.')->group(function(){
+Route::domain(env('APP_AUTH_PREFIX').'.'.env('APP_ROOT_DOMAIN'))->name('auth.')->group(function(){
     Route::get('/',function () {
         return response('TEST',200);
     });

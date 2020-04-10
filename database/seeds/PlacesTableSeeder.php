@@ -35,7 +35,7 @@ class PlacesTableSeeder extends Seeder
                         $tagComment->tag()->associate($tag);
                         $tagComment->user()->associate($users->random(1)->first());
                         $tagComment->content = $faker->text(200);
-                        $tagComment->push();
+                        $tagComment->save();
 
                         //set Tag Comment like
                         foreach ($users->random(rand(5,10)) as $user){

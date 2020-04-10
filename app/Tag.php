@@ -13,6 +13,7 @@ class Tag extends Model
 
     protected $attributes = [
         'type' => 'others',
-        'icon' => 'tag'
+        'icon_prefix' => 'fas',
+        'icon_name' => 'tag',
     ];
 }

@@ -31,7 +31,6 @@ class Place extends JsonResource
             'likes_count' => $this->likes_count,
             'user_like' => $this->userLike($request->user('sanctum')),
             'recommends_count' => $this->recommends_count,
-            'pinned_recommend' => $this->pinnedRecommend(),
         ];
     }
 }

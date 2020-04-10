@@ -18,7 +18,8 @@ class CreateTagsTable extends Migration
             $table->string('name');
             $table->string('label');
             $table->string('description');
-            $table->string('icon');
+            $table->string('icon_prefix');
+            $table->string('icon_name');
             $table->string('color');
             $table->string('type');
             $table->softDeletes();

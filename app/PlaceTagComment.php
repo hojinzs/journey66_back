@@ -21,7 +21,7 @@ class PlaceTagComment extends Model
                     'tagging_counts' => 1
                 ]);
             } else {
-                $placeTag = PlaceTag::find($place_tag->id);
+                $placeTag = PlaceTag::find($place_tag->pivot->id);
                 $placeTag->last_comment_id = $comment->id;
                 $placeTag->tagging_counts = ++$placeTag->tagging_counts;
                 $placeTag->push();

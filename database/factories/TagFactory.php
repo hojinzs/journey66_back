@@ -8,7 +8,34 @@ use Faker\Generator as Faker;
 $factory->define(Tag::class, function (Faker $faker) {
 
     $type_array=['utility','brand','merchant','others'];
-    $icon_array=['biking','bicycle','ambulance','apple','beer','building'];
+    $icon_array=[
+        [
+            'prefix' => 'fas',
+            'name' => 'biking'
+        ],
+        [
+            'prefix' => 'fas',
+            'name' => 'bicycle'
+        ],
+        [
+            'prefix' => 'fas',
+            'name' => 'ambulance'
+        ],
+        [
+            'prefix' => 'fab',
+            'name' => 'apple'
+        ],
+        [
+            'prefix' => 'fas',
+            'name' => 'beer'
+        ],
+        [
+            'prefix' => 'fas',
+            'name' => 'building'
+        ],
+    ];
+
+    $icon = $faker->randomElement($icon_array);
 
     return [
         //
@@ -16,7 +43,8 @@ $factory->define(Tag::class, function (Faker $faker) {
         'label' => $faker->word,
         'description' => $faker->paragraph(1),
         'color' => $faker->hexColor,
-        'icon' => $faker->randomElement($icon_array),
+        'icon_prefix' => $icon['prefix'],
+        'icon_name' => $icon['name'],
         'type' => $faker->randomElement($type_array),
     ];
 });
