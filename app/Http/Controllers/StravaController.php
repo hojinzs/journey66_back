@@ -108,7 +108,7 @@ class StravaController extends Controller
         }
         $token = User::find(Auth::id())->setToken('web-api-token');
 
-        \Illuminate\Support\Facades\Cookie::queue('Authorization',$token,'1','/','.bikegear.test',false,false);
+        \Illuminate\Support\Facades\Cookie::queue('Authorization',$token,'1','/',env('SESSION_DOMAIN'),false,false);
 
         Auth::logout();
         $request->session()->flush();
