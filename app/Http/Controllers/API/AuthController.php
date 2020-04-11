@@ -13,6 +13,9 @@ class AuthController extends Controller
     public function login(Request $request)
     {
         $user = User::where('email',$request->email)->first();
+        if(!$user){
+            return response('authentication information not found', 401);
+        }
 
         return $this->returnUserData($user);
     }

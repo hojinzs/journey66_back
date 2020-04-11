@@ -19,4 +19,9 @@ class Like extends Model
     {
         return $this->belongsTo('App\User');
     }
+
+    public function scopeUser($query,User $user)
+    {
+        return $query->where('user_id',$user->id);
+    }
 }

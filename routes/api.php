@@ -97,15 +97,22 @@ Route::domain(env('APP_API_PREFIX').'.'.env('APP_ROOT_DOMAIN','localhost'))->gro
         });
 
         /**
-         * User Owned Resources
+         * User Owned Resources (Places)
          */
-        Route::get('places/{place}/recommends','API\PlaceRecommendController@owned')
-            ->middleware('auth:sanctum')
-            ->name('places.recommends');
+        Route::prefix('places')->name('places.')->group(function() {
+            Route::get('likes', 'API\UserController@placeByLikes')
+                ->middleware('auth:sanctum')
+                ->name('likes');
+        });
+        Route::prefix('places')->name('place.')->group(function() {
+            Route::get('{place}/recommends','API\PlaceRecommendController@owned')
+                ->middleware('auth:sanctum')
+                ->name('recommends');
 
-        Route::get('places/{place}/tags/comments','API\PlaceTagCommentController@owned')
-            ->middleware('auth:sanctum')
-            ->name('places.tags.comments');
+            Route::get('{place}/tags/comments','API\PlaceTagCommentController@owned')
+                ->middleware('auth:sanctum')
+                ->name('tags.comments');
+        });
 
     });
 

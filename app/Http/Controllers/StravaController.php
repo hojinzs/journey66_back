@@ -106,6 +106,10 @@ class StravaController extends Controller
         if($returnUrl == null){
             $returnUrl = $request->session()->get('returnUrl');
         }
+        if($returnUrl == null){
+            $returnUrl = env('APP_URL');
+        }
+
         $token = User::find(Auth::id())->setToken('web-api-token');
 
         \Illuminate\Support\Facades\Cookie::queue('Authorization',$token,'1','/',env('SESSION_DOMAIN'),false,false);

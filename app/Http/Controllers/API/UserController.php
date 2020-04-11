@@ -3,13 +3,18 @@
 namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
+use App\Place;
 use App\User;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
 class UserController extends Controller
 {
-    //
+    public function __construct()
+    {
+        $this->middleware('auth:sanctum');
+    }
 
     /**
      * @param Request $request
@@ -17,17 +22,24 @@ class UserController extends Controller
      */
     public function whoami(Request $request)
     {
-        if(Auth::check()){
+        $user = $request->user();
 
-            $user = Auth::user();
-            $response = [
-                'user' => $user,
-                'api_token' => $user->api_token,
-                'provider' => [
-                    'strava' => $user->providerTokens()->where('provider','strava')->first(),
-                ]
-            ];
-            return response($response,200);
-        }
+        $response = [
+            'user' => $user,
+            'api_token' => $user->api_token,
+            'provider' => [
+                'strava' => $user->providerTokens()->where('provider','strava')->first(),
+            ]
+        ];
+        return response($response,200);
+    }
+
+    public function placeByLikes(Request $request)
+    {
+        $user = $request->user();
+        $places = Place::whereHas('likes', function($query) use ($user) {
+            $query->where('user_id',$user->id);
+        })->get();
+        return response($places);
     }
 }
