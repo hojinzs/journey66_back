@@ -25,6 +25,18 @@ class AuthController extends Controller
         return $this->returnUserData(Auth::user());
     }
 
+    public function logout(Request $request)
+    {
+        try {
+            $request->user()->tokens->each->delete();
+        }
+        catch (\Exception $exception){
+            return abort(401);
+        }
+
+        return response('success',200);
+    }
+
     public function register(Request $request)
     {
         $validator = $this->validator($request->all());
@@ -70,10 +82,10 @@ class AuthController extends Controller
      */
     protected function returnUserData(User $user)
     {
-        $token = $user->setToken('web-api-token');
+        $token = $user->createToken('web-api-token');
         $response = [
             'user' => $user,
-            'token' => $token,
+            'token' => $token->plainTextToken,
             'provider' => [
                 'strava' => $user->providerTokens()->where('provider','strava')->first(),
             ]

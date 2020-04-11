@@ -75,6 +75,13 @@ Route::domain(env('APP_API_PREFIX').'.'.env('APP_ROOT_DOMAIN','localhost'))->gro
         });
 
         /**
+         * Logout
+         */
+        Route::post('logout','API\AuthController@logout')
+            ->middleware('auth:sanctum')
+            ->name('logout');
+
+        /**
          * Register
          */
         Route::post('/signup', 'API\AuthController@register')
