@@ -4,10 +4,8 @@ namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
 use App\Place;
-use App\User;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 
 class UserController extends Controller
 {
@@ -37,7 +35,7 @@ class UserController extends Controller
     public function placeByLikes(Request $request)
     {
         $user = $request->user();
-        $places = Place::whereHas('likes', function($query) use ($user) {
+        $places = Place::whereHas('likes', function(Builder $query) use ($user) {
             $query->where('user_id',$user->id);
         })->get();
         return response($places);
