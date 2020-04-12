@@ -14,6 +14,12 @@ use Illuminate\Support\Facades\Route;
 */
 
 
+Route::domain(env('APP_API_PREFIX').'.'.env('APP_ROOT_DOMAIN'))->name('api.')->group(function () {
+    Route::get('/', function () {
+        return response('welcome');
+    });
+});
+
 Route::domain(env('APP_AUTH_PREFIX').'.'.env('APP_ROOT_DOMAIN'))->name('auth.')->group(function(){
     Route::get('/',function () {
         return response('TEST',200);
@@ -35,10 +41,13 @@ Route::domain(env('APP_AUTH_PREFIX').'.'.env('APP_ROOT_DOMAIN'))->name('auth.')-
 });
 
 
-Route::get('/', function () {
-    return view('welcome');
+Route::domain(env('APP_ADMIN_PREFIX').'.'.env('APP_ROOT_DOMAIN'))->name('api.')->group(function () {
+//    Route::get('/', function () {
+//        return response('welcome');
+//    });
+
+    Route::get('/', 'Admin\HomeController@index')->name('home');
 });
 
 //Auth::routes();
-
-Route::get('/home', 'HomeController@index')->name('home');
+//Route::get('/home', 'HomeController@index')->name('home');
