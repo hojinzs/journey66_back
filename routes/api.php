@@ -123,7 +123,6 @@ Route::domain(env('APP_API_PREFIX').'.'.env('APP_ROOT_DOMAIN','localhost'))->gro
 
     });
 
-
     /**
      * TEST
      */

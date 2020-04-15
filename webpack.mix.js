@@ -1,5 +1,37 @@
 const mix = require('laravel-mix');
 
+/**
+ * config for Vuetify
+ */
+mix.webpackConfig({
+    rules: [
+        {
+            test: /\.s(c|a)ss$/,
+            use: [
+                'vue-style-loader',
+                'css-loader',
+                {
+                    loader: 'sass-loader',
+                    // Requires sass-loader@^7.0.0
+                    options: {
+                        implementation: require('sass'),
+                        fiber: require('fibers'),
+                        indentedSyntax: true // optional
+                    },
+                    // Requires sass-loader@^8.0.0
+                    options: {
+                        implementation: require('sass'),
+                        sassOptions: {
+                            fiber: require('fibers'),
+                            indentedSyntax: true // optional
+                        },
+                    },
+                },
+            ],
+        },
+    ],
+})
+
 /*
  |--------------------------------------------------------------------------
  | Mix Asset Management
@@ -11,6 +43,6 @@ const mix = require('laravel-mix');
  |
  */
 
-mix.js('resources/js/app.js', 'public/js')
-    .js('resources/js/admin.js','public/js')
-   .sass('resources/sass/app.scss', 'public/css');
+mix.js('store/js/app.js', 'public/js')
+    .js('store/js/admin.js','public/js')
+   .sass('store/sass/app.scss', 'public/css');

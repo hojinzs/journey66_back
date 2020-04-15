@@ -42,11 +42,14 @@ Route::domain(env('APP_AUTH_PREFIX').'.'.env('APP_ROOT_DOMAIN'))->name('auth.')-
 
 
 Route::domain(env('APP_ADMIN_PREFIX').'.'.env('APP_ROOT_DOMAIN'))->name('api.')->group(function () {
-//    Route::get('/', function () {
-//        return response('welcome');
-//    });
 
-    Route::get('/', 'Admin\HomeController@index')->name('home');
+    Route::get('/login', 'Admin\AuthController@show')->name('login');
+    Route::post('/login', 'Admin\AuthController@authenticate')->name('authenticate');
+
+    /**
+     * 인증을 위해 필요한 라우트 외 나머지 라우트는 VueRouter 에서 처리한다.
+     */
+    Route::fallback('Admin\HomeController@index')->name('app');
 });
 
 //Auth::routes();
