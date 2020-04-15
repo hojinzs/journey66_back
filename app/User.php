@@ -41,6 +41,10 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
+    protected $attributes = [
+        'role' => 'user',
+    ];
+
     Public function providerTokens()
     {
         return $this->hasMany('App\ProviderToken');

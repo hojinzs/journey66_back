@@ -9,7 +9,7 @@
         <v-app-bar app>
             <!-- -->
 
-            헤더 앱 바
+            헤더 앱 바ㅁㄴㅇㄹ
         </v-app-bar>
 
         <!-- Sizes your content based upon application components -->
@@ -24,7 +24,7 @@
 
         <v-footer app>
             <!-- -->
-            푸터입니다
+            <form method="GET" action="/logout"><button type="submit">로그아웃</button></form>
         </v-footer>
     </v-app>
 </template>

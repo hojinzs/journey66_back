@@ -50,7 +50,13 @@ return [
             'driver' => 'token',
             'provider' => 'users',
 //            'hash' => true,
-        ]
+        ],
+
+        'admin' => [
+            'driver' => 'admin',
+            'provider' => 'users',
+        ],
+
     ],
 
     /*
@@ -75,6 +81,10 @@ return [
             'driver' => 'eloquent',
             'model' => App\User::class,
         ],
+//        'admins' => [
+//            'driver' => 'eloquent',
+//            'model' => App\User::class,
+//        ],
 
         // 'users' => [
         //     'driver' => 'database',

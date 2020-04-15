@@ -41,10 +41,12 @@ Route::domain(env('APP_AUTH_PREFIX').'.'.env('APP_ROOT_DOMAIN'))->name('auth.')-
 });
 
 
-Route::domain(env('APP_ADMIN_PREFIX').'.'.env('APP_ROOT_DOMAIN'))->name('api.')->group(function () {
+Route::domain(env('APP_ADMIN_PREFIX').'.'.env('APP_ROOT_DOMAIN'))->name('admin.')->group(function () {
 
     Route::get('/login', 'Admin\AuthController@show')->name('login');
     Route::post('/login', 'Admin\AuthController@authenticate')->name('authenticate');
+    Route::get('/logout', 'Admin\AuthController@logout')->name('logout');
+    Route::get('/who', 'Admin\AuthController@who')->name('who');
 
     /**
      * 인증을 위해 필요한 라우트 외 나머지 라우트는 VueRouter 에서 처리한다.
