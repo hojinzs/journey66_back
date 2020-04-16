@@ -4,13 +4,30 @@ import store from './store/index'
 import vuetify from "./plugins/vuetify"
 import App from './components/admin/app'
 import axios from 'axios'
+import Cookies from 'js-cookie'
 
-axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest'
 
-new Vue({
-    store,
-    router,
-    vuetify,
-    el: '#app',
-    render: h => h(App),
-})
+adminAuthorization()
+    .then(() => {
+        new Vue({
+            store,
+            router,
+            vuetify,
+            el: '#app',
+            render: h => h(App),
+        })
+    })
+    .catch(() => {
+        location.href="/login"
+    })
+
+
+function adminAuthorization() {
+    if(Cookies.get('Authorization')){
+        axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest'
+        axios.defaults.headers.common['Authorization'] = `Bearer ${Cookies.get('Authorization')}`
+        return axios.get('//api.bikegear.test/v1/user')
+    } else {
+        return Promise.reject('not found Authorization Cookie')
+    }
+}

@@ -2,21 +2,57 @@
     <v-app>
         <v-navigation-drawer app>
             <!-- -->
+            <template v-slot:prepend>
+                <v-list>
+                    <v-list-item>
+                        <v-list-item-icon>
 
-            네비게이션 그리기
+                        </v-list-item-icon>
+                        <v-list-item-content>
+                            Journey66 ADMIN
+                        </v-list-item-content>
+                    </v-list-item>
+                    <v-list-item
+                        :class="'justify-end'"
+                    >
+                        <form method="GET" action="/logout">
+                            <v-btn class="float-md-right" color="light-blue lighten-3" type="submmit">로그아웃</v-btn>
+<!--                            <button type="submit">로그아웃</button>-->
+                        </form>
+                    </v-list-item>
+                </v-list>
+                <v-divider></v-divider>
+            </template>
+
+            <v-list-item-group
+                :mandatory="true"
+                v-model="model"
+            >
+                <v-list-item
+                    v-for="item in adminMenu"
+                    :key="item.name"
+                >
+                    <v-list-item-icon>
+                        <v-icon>{{ item.icon }}</v-icon>
+                    </v-list-item-icon>
+
+                    <v-list-item-content>
+                        <v-list-item-title>{{ item.label }}</v-list-item-title>
+                    </v-list-item-content>
+                </v-list-item>
+            </v-list-item-group>
+
         </v-navigation-drawer>
 
         <v-app-bar app>
             <!-- -->
-
-            헤더 앱 바ㅁㄴㅇㄹ
+            <h2>{{ $route.name }}</h2>
         </v-app-bar>
 
         <!-- Sizes your content based upon application components -->
         <v-content>
             <!-- Provides the application the proper gutter -->
             <v-container fluid>
-<!--                콘텐츠 콘테이너-->
                 <!-- If using vue-router -->
                 <router-view></router-view>
             </v-container>
@@ -24,16 +60,49 @@
 
         <v-footer app>
             <!-- -->
-            <form method="GET" action="/logout"><button type="submit">로그아웃</button></form>
         </v-footer>
     </v-app>
 </template>
 
 <script>
+    import adminMenu from '../../plugins/admin-menu.js'
+
     export default {
         name: 'app',
+        data(){
+            return {
+                adminMenu,
+                model: undefined
+            }
+        },
+        computed: {
+            currentRouteNumber(){
+                let current = this.adminMenu.findIndex( menu => {
+                    return menu.routeName === this.$route.name
+                })
+                if(current === -1 ){
+                    return undefined
+                }
+                return current
+            }
+        },
+        created() {
+            this.model = this.currentRouteNumber
+            console.log(this.$store.state.user)
+        },
         mounted() {
-            console.log('Component mounted.')
+
+        },
+        watch: {
+            $route(){
+                this.model = this.currentRouteNumber
+            },
+            model(newModel){
+                if(typeof newModel !== 'undefined' && this.$route.name !== this.adminMenu[newModel].routeName ){
+                    this.$router.push({name: this.adminMenu[newModel].routeName})
+                }
+            }
+
         }
     }
 </script>

@@ -6,14 +6,14 @@
                 <tr>
                     <th class="text-left">#</th>
                     <th class="text-left">Name</th>
-                    <th class="text-left">e-mail</th>
+                    <th class="text-left">type</th>
                 </tr>
                 </thead>
                 <tbody>
-                <tr v-for="user in users" :key="user.id">
-                    <td>{{ user.id }}</td>
-                    <td>{{ user.name }}</td>
-                    <td>{{ user.email }}</td>
+                <tr v-for="tag in tags" :key="tag.id">
+                    <td>{{ tag.id }}</td>
+                    <td>{{ tag.name }}</td>
+                    <td>{{ tag.type }}</td>
                 </tr>
                 </tbody>
             </template>
@@ -23,10 +23,10 @@
 
 <script>
     export default {
-        name: 'users',
+        name: 'places',
         data(){
             return {
-                users: []
+                tags: []
             }
         },
         mounted() {

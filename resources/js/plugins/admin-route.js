@@ -7,6 +7,7 @@ import VueRouter from 'vue-router'
 import home from '../components/admin/pages/home'
 import users from '../components/admin/pages/users'
 import places from '../components/admin/pages/places'
+import tags from '../components/admin/pages/tags'
 import pageNotFound from '../components/admin/pages/404'
 
 Vue.use(VueRouter)
@@ -28,6 +29,11 @@ const router = new VueRouter({
             path: '/places',
             name: 'Places',
             component: places,
+        },
+        {
+            path: '/tags',
+            name: 'Tags',
+            component: tags
         },
         {
             path: '*',
