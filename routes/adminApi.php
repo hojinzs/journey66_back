@@ -13,13 +13,19 @@ use Illuminate\Support\Facades\Route;
 | is assigned the "api" middleware group. Enjoy building your API!
 |
 */
-Route::domain(env('APP_ADMIN_PREFIX').'.'.env('APP_ROOT_DOMAIN','localhost'))->group(function(){
+Route::domain(env('APP_ADMIN_PREFIX').'.'.env('APP_ROOT_DOMAIN','localhost'))->name('admin.api.')->group(function(){
+
+    /**
+     * Users
+     */
+    Route::apiResource('users','API\UserController')
+        ->only('index','show');
 
     /**
      * TEST
      */
     Route::get('/test', function (Request $request) {
         return response($request->user(),200);
-    });
+    })->name('test');
 
 });

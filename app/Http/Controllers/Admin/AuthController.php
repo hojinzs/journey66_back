@@ -36,7 +36,7 @@ class AuthController extends Controller
             $token = $user->createToken('web-admin-token')->plainTextToken;
 //            Cookie::queue('Authorization',$token,'1','/',env('SESSION_DOMAIN'),false,false);
 
-            return redirect()->intended('/')->withCookie('Authorization',$token,'1','/',env('SESSION_DOMAIN'),false,false);
+            return redirect()->intended('/')->withCookie('Authorization',$token,'30','/',env('SESSION_DOMAIN'),false,false);
         }
 
         return redirect()->route('admin.login',['status' => 'failed']);

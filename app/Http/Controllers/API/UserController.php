@@ -3,7 +3,9 @@
 namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
+use App\Http\Resources\User as UserResource;
 use App\Place;
+use App\User;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
 
@@ -12,6 +14,29 @@ class UserController extends Controller
     public function __construct()
     {
         $this->middleware('auth:sanctum');
+
+        $this->middleware('auth:admin')->only(
+            'index'
+        );
+    }
+
+    public function index(Request $request)
+    {
+        $users = User::query();
+
+        if($request->query('name')){
+            $users->where('name','like','%'.$request->query('name').'%');
+        }
+        if($request->query('email')){
+            $users->where('email','like','%'.$request->query('email').'%');
+        }
+        if($perPage = $request->query('per_page') > 0){
+            $perPage = $request->query('per_page');
+        } else {
+            $perPage = 10;
+        }
+
+        return UserResource::collection($users->paginate($perPage));
     }
 
     /**

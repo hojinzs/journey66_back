@@ -5,11 +5,15 @@ import vuetify from "./plugins/vuetify"
 import App from './components/admin/app'
 import axios from 'axios'
 import Cookies from 'js-cookie'
+import routeList from './plugins/route-list'
+import routes from './config/routes'
 
+Vue.use(routeList,{routeJson: routes})
 
 adminAuthorization()
     .then(() => {
         new Vue({
+            apiRouter: routeList,
             store,
             router,
             vuetify,
@@ -21,6 +25,7 @@ adminAuthorization()
         location.href="/login"
     })
 
+console.log()
 
 function adminAuthorization() {
     if(Cookies.get('Authorization')){
