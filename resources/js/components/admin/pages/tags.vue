@@ -22,12 +22,24 @@
 </template>
 
 <script>
+    import LaravelResourceController from "../../../mixin/LaravelResourceController.vue"
+
     export default {
         name: 'places',
+        mixins: [ LaravelResourceController ],
         data(){
             return {
                 tags: []
             }
+        },
+        methods: {
+            updateAfterXhrSuccess(data){
+                this.tags = data
+            }
+        },
+        created() {
+            this.setXhr('GET','//'+this.$routeList('admin.api.tags.index'))
+            this.getData()
         },
         mounted() {
             console.log('Component mounted.')

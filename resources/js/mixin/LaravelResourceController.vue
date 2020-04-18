@@ -12,7 +12,7 @@
                     status: 'ready',
                     url: null,
                 },
-                data: [],  // structure of laravel resource response
+                $resources: [],  // structure of laravel resource response
                 links: {}, // structure of laravel resource response
                 meta: { // structure of laravel resource response
                     current_page: null,
@@ -61,14 +61,20 @@
                     url: apiUrl,
                 })
                     .then(res => {
-                        this.users = res.data.data
-                        this.links = res.data.links
-                        this.meta = res.data.meta
+                        this.$resources = res.data.data
+                        this.updateAfterXhrSuccess(res.data.data)
 
-                        console.log('Page => ', this.page, this.meta.current_page)
-                        if(this.meta.current_page !== this.page){
-                            this.page = this.meta.current_page;
+                        if(res.data.links){
+                            this.links = res.data.links
                         }
+                        if(res.data.meta){
+                            this.meta = res.data.meta
+                            if(this.meta.current_page !== this.page){
+                                this.page = this.meta.current_page;
+                            }
+                        }
+
+                        this.updateAfterXhrSuccess(this.$resources)
 
                         return Promise.resolve(res.data)
                     })
@@ -95,6 +101,8 @@
                         this.filter[ param ] = this.$route.query[ param ]
                     }
                 })
+            },
+            updateAfterXhrSuccess(){
             }
         },
         created() {

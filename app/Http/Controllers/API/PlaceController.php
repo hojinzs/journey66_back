@@ -5,20 +5,24 @@ namespace App\Http\Controllers\API;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\Place as PlaceResource;
 use App\Place;
-use http\Client\Request;
+use Illuminate\Http\Request;
 
 class PlaceController extends Controller
 {
-
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Resources\Json\AnonymousResourceCollection
      */
-    public function index()
+    public function index(Request $request)
     {
         //
-        $place = Place::withCount(['likes','recommends']);
+        $place = Place::query()->withCount(['likes','recommends']) ;
+
+        if($request->query('name')){
+            $place->where('name','like','%'.$request->query('name').'%');
+        }
+
         return PlaceResource::collection($place->paginate(10));
     }
 

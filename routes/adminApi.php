@@ -22,6 +22,18 @@ Route::domain(env('APP_ADMIN_PREFIX').'.'.env('APP_ROOT_DOMAIN','localhost'))->n
         ->only('index','show');
 
     /**
+     * Places
+     */
+    Route::apiResource('places','API\PlaceController')
+        ->only('index','show');
+
+    /**
+     * Tags
+     */
+    Route::apiResource('tags','API\TagController')
+        ->only('index','show');
+
+    /**
      * TEST
      */
     Route::get('/test', function (Request $request) {

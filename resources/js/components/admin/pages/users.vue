@@ -72,18 +72,21 @@
         mixins: [LaravelResourceController],
         data(){
             return {
-                users: this.data,
+                users: [],
                 filter: {
                     name: null,
                     email: null,
                 },
             }
         },
+        methods: {
+            updateAfterXhrSuccess(data){
+                this.users = data
+            }
+        },
         created() {
             this.setXhr('GET','//'+this.$routeList('admin.api.users.index'))
             this.getData()
-                .then(res => console.log("success =>", res))
-                .catch( error => console.error(error))
         },
         mounted() {
         },
