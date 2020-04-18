@@ -19,14 +19,14 @@ class CreatePlacesTable extends Migration
             $table->text('description')->nullable();
             $table->double('latitude',12,8);
             $table->double('longitude',12,8);
-            $table->string('thumbnail')->nullable();
+            $table->text('thumbnail')->nullable();
             $table->string('type')->nullable();
             $table->string('status');
             $table->integer('zip_code')->nullable();
             $table->string('address1')->nullable();
             $table->string('address2')->nullable();
             $table->string('phone_number')->nullable();
-            $table->string('homepage')->nullable();
+            $table->text('homepage')->nullable();
             $table->unsignedBigInteger('owner_id')->nullable();
             $table->softDeletes();
             $table->timestamps();

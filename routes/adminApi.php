@@ -25,7 +25,7 @@ Route::domain(env('APP_ADMIN_PREFIX').'.'.env('APP_ROOT_DOMAIN','localhost'))->n
      * Places
      */
     Route::apiResource('places','API\PlaceController')
-        ->only('index','show');
+        ->only('index','show','store','update');
 
     /**
      * Tags

@@ -25,6 +25,11 @@ class Place extends JsonResource
             ],
             'phone' => $this->phone_number,
             'formattedAddress' => $this->address1.' '.$this->address2,
+            'address' => [
+                'zip_code' => $this->zip_code,
+                'address1' => $this->address1,
+                'address2' => $this->address2,
+            ],
             'Url' => $this->homepage,
             'Image' => $this->thumbnail,
             'tags' => $this->tags,

@@ -1,5 +1,12 @@
 <template>
     <div>
+        <v-progress-linear
+            :active="xhrLoading"
+            :indeterminate="xhrLoading"
+            absolute
+            top
+            color="deep-purple accent-4"
+        ></v-progress-linear>
         <v-form @submit.prevent="setFilter">
             <v-container>
                 <v-row>

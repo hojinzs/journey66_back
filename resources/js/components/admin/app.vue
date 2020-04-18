@@ -31,6 +31,7 @@
                 <v-list-item
                     v-for="item in adminMenu"
                     :key="item.name"
+                    @click="routeChange(item.routeName)"
                 >
                     <v-list-item-icon>
                         <v-icon>{{ item.icon }}</v-icon>
@@ -46,7 +47,7 @@
 
         <v-app-bar app>
             <!-- -->
-            <h2>{{ $route.name }}</h2>
+            <h2>{{ $route.meta.label }}</h2>
         </v-app-bar>
 
         <!-- Sizes your content based upon application components -->
@@ -76,9 +77,9 @@
             }
         },
         computed: {
-            currentRouteNumber(){
+            currentRouteGroupNumber(){
                 let current = this.adminMenu.findIndex( menu => {
-                    return menu.routeName === this.$route.name
+                    return menu.groupName === this.$route.meta.group
                 })
                 if(current === -1 ){
                     return undefined
@@ -87,22 +88,21 @@
             }
         },
         created() {
-            this.model = this.currentRouteNumber
+            this.model = this.currentRouteGroupNumber
             console.log(this.$store.state.user)
+        },
+        methods: {
+            routeChange(routeName){
+                this.$router.push({name: routeName})
+            }
         },
         mounted() {
 
         },
         watch: {
             $route(){
-                this.model = this.currentRouteNumber
+                this.model = this.currentRouteGroupNumber
             },
-            model(newModel){
-                if(typeof newModel !== 'undefined' && this.$route.name !== this.adminMenu[newModel].routeName ){
-                    this.$router.push({name: this.adminMenu[newModel].routeName})
-                }
-            }
-
         }
     }
 </script>

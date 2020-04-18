@@ -41,7 +41,9 @@
     "admin.api.users.index": "api\/users",
     "admin.api.users.show": "api\/users\/{user}",
     "admin.api.places.index": "api\/places",
+    "admin.api.places.store": "api\/places",
     "admin.api.places.show": "api\/places\/{place}",
+    "admin.api.places.update": "api\/places\/{place}",
     "admin.api.tags.index": "api\/tags",
     "admin.api.tags.show": "api\/tags\/{tag}",
     "admin.api.test": "api\/test"
