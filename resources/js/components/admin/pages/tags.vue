@@ -1,5 +1,31 @@
 <template>
     <div>
+        <v-form @submit.prevent="setFilter">
+            <v-container>
+                <v-row>
+                    <v-col
+                        cols="12"
+                        md="4"
+                    >
+                        <v-text-field
+                            v-model="filter.name"
+                            :counter="10"
+                            label="Name"
+                        />
+                    </v-col>
+                </v-row>
+                <v-row>
+                    <v-col
+                        cols="12"
+                        md="4"
+                    >
+                        <v-btn type="submit">
+                            Filter
+                        </v-btn>
+                    </v-col>
+                </v-row>
+            </v-container>
+        </v-form>
         <v-simple-table>
             <template v-slot:default>
                 <thead>
@@ -29,7 +55,10 @@
         mixins: [ LaravelResourceController ],
         data(){
             return {
-                tags: []
+                tags: [],
+                filter: {
+                    name: null,
+                }
             }
         },
         methods: {

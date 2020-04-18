@@ -10,14 +10,19 @@ use App\Tag;
 class TagController extends Controller
 {
     /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
+     * @param Request $request
+     * @return \Illuminate\Http\Resources\Json\AnonymousResourceCollection
      */
-    public function index()
+    public function index(Request $request)
     {
         //
-        return TagCollection::collection(Tag::all());
+        $tags = Tag::query();
+
+        if($request->query('name')){
+            $tags->where('name','like','%'.$request->query('name').'%');
+        }
+
+        return TagCollection::collection($tags->get());
     }
 
     /**

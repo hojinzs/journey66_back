@@ -27,7 +27,7 @@ adminAuthorization()
 
 console.log()
 
-function adminAuthorization() {
+async function adminAuthorization() {
     if(Cookies.get('Authorization')){
         axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest'
         axios.defaults.headers.common['Authorization'] = `Bearer ${Cookies.get('Authorization')}`

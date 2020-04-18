@@ -10,8 +10,6 @@ const routeList = {
         const baseUrl = process.env.MIX_ADMIN_API_HOST;
 
         Vue.prototype.$routeList = function(){
-            console.log(routeJson);
-
             let args = Array.prototype.slice.call(arguments);
             let name = args.shift();
 
