@@ -80,7 +80,6 @@
             }
         },
         created() {
-            this.setFilterValueByQuery()
             this.setXhr('GET','//'+this.$routeList('admin.api.users.index'))
             this.getData()
                 .then(res => console.log("success =>", res))

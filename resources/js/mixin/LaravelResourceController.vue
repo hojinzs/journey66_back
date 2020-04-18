@@ -88,7 +88,7 @@
                 this.xhr.status = url;
                 this.meta.path = url;
             },
-            setFilterValueByQuery(){
+            setFilterValuesByQuery(){
                 let params = Object.keys(this.filter)
                 params.forEach( param => {
                     if(this.$route.query[ param ]){
@@ -96,6 +96,9 @@
                     }
                 })
             }
+        },
+        created() {
+            this.setFilterValuesByQuery()
         },
         watch:{
             '$route': 'changeList',
