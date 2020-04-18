@@ -65,83 +65,28 @@
 </template>
 
 <script>
-    import axios from 'axios'
-    import queryString from 'query-string'
-    import cleanDeep from 'clean-deep'
+    import LaravelResourceController from '../../../mixin/LaravelResourceController.vue'
 
     export default {
         name: 'users',
+        mixins: [LaravelResourceController],
         data(){
             return {
-                users: [],
-                links: {},
-                meta: {
-                    current_page: 1,
-                    from: 1,
-                    last_page: 1,
-                    path: '//' + this.$routeList('admin.api.users.index'),
-                    per_page: 15,
-                    to: 1,
-                    total: 1
-                },
+                users: this.data,
                 filter: {
                     name: null,
                     email: null,
                 },
-                page: 1
             }
         },
         created() {
-            this.getUsersData()
+            this.setFilterValueByQuery()
+            this.setXhr('GET','//'+this.$routeList('admin.api.users.index'))
+            this.getData()
                 .then(res => console.log("success =>", res))
+                .catch( error => console.error(error))
         },
         mounted() {
-
         },
-        methods: {
-            async getUsersData(query = {}){
-                let new_query = { ...query }
-
-                if(typeof new_query.per_page == 'undefined'){
-                    new_query.per_page = this.meta.per_page
-                }
-
-                let apiUrl = queryString.stringifyUrl({
-                    url: this.meta.path,
-                    query: new_query
-                },{
-                    skipNull: true
-                })
-
-                return axios({
-                    method: 'GET',
-                    url: apiUrl
-                })
-                    .then(res => {
-                        this.users = res.data.data
-                        this.links = res.data.links
-                        this.meta = res.data.meta
-                        return Promise.resolve(res.data)
-                    })
-            },
-            changeList(){
-                this.getUsersData(this.$route.query)
-            },
-            setFilter(){
-                console.log("input => ", this.filter)
-                let filter = {...this.filter}
-                console.log(cleanDeep(filter))
-
-                this.$router.push({query: cleanDeep(filter)})
-            },
-        },
-        watch:{
-            '$route': 'changeList',
-            page(value){
-                let query = { ...this.$route.query }
-                query.page = value
-                this.$router.push({query: query})
-            },
-        }
     }
 </script>
