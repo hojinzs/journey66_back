@@ -24,10 +24,23 @@
                 <v-row>
                     <v-col
                         cols="12"
-                        md="4"
+                        md="6"
                     >
                         <v-btn type="submit">
                             Filter
+                        </v-btn>
+                    </v-col>
+                    <v-col
+                        :class="'d-flex justify-end'"
+                        cols="12"
+                        md="6"
+                    >
+                        <v-btn
+                            class="white--text"
+                            color="deep-purple accent-4"
+                            @click="$router.push({name: 'Places.create'})"
+                        >
+                            등록
                         </v-btn>
                     </v-col>
                 </v-row>

@@ -1,230 +1,36 @@
 <template>
     <div>
-        <v-form ref="place">
-            <v-row>
-                <v-col
-                    cols="12"
-                    md="2"
+        <v-card>
+            <v-card-title>
+                {{ place.name }}
+            </v-card-title>
+            <v-card-subtitle>
+                {{ place.description }}
+            </v-card-subtitle>
+                <v-tabs
+                    centered
                 >
-                    <v-subheader>Name</v-subheader>
-                </v-col>
-                <v-col
-                    cols="12"
-                    md="4"
-                >
-                    <v-text-field
-                        required
-                        label="Name"
-                        v-model="place.name"
-                    />
-                </v-col>
-                <v-col
-                    cols="12"
-                    md="2"
-                >
-                    <v-subheader>Type</v-subheader>
-                </v-col>
-                <v-col
-                    cols="12"
-                    md="4"
-                >
-                    <v-select
-                        label="Type"
-                        :items="placeTypes"
-                        v-model="place.type"
-                    >
-                        {{ place.type }}
-                    </v-select>
-                </v-col>
-            </v-row>
-            <v-row>
-                <v-col
-                    cols="12"
-                    md="2"
-                >
-                    <v-subheader>Description</v-subheader>
-                </v-col>
-                <v-col
-                    cols="12"
-                    md="4"
-                >
-                    <v-textarea
-                        label="Name"
-                        v-model="place.description"
-                    />
-                </v-col>
-            </v-row>
-            <v-row>
-                <v-col
-                    cols="12"
-                    md="2"
-                >
-                    <v-subheader>geoPoint</v-subheader>
-                </v-col>
-                <v-col
-                    cols="12"
-                    md="4"
-                >
-                    <div>
-                        <v-text-field
-                            required
-                            label="latitude"
-                            v-model="place.latitude"
-                        />
-                    </div>
-                    <div>
-                        <v-text-field
-                            required
-                            label="longitude"
-                            v-model="place.longitude"
-                        />
-                    </div>
-                </v-col>
-                <v-col
-                    cols="12"
-                    md="2"
-                >
-                    <v-subheader>preview</v-subheader>
-                </v-col>
-                <v-col
-                    cols="12"
-                    md="4"
-                >
-                    <div>
-                        map
-                    </div>
-                </v-col>
-            </v-row>
-            <v-row>
-                <v-col
-                    cols="12"
-                    md="2"
-                >
-                    <v-subheader>phone</v-subheader>
-                </v-col>
-                <v-col
-                    cols="12"
-                    md="4"
-                >
-                    <v-text-field
-                        label="phone number"
-                        v-model="place.phone"
-                    />
-                </v-col>
-                <v-col
-                    cols="12"
-                    md="2"
-                >
-                    <v-subheader>Address</v-subheader>
-                </v-col>
-                <v-col
-                    cols="12"
-                    md="4"
-                >
-                    <div>
-                        <v-text-field
-                            label="zip_code"
-                            v-model="place.zip_code"
-                        />
-                    </div>
-                    <div>
-                        <v-text-field
-                            label="address1"
-                            v-model="place.address1"
-                        />
-                    </div>
-                    <div>
-                        <v-text-field
-                            label="address2"
-                            v-model="place.address2"
-                        />
-                    </div>
-                </v-col>
-            </v-row>
-            <v-row>
-                <v-col
-                    cols="12"
-                    md="2"
-                >
-                    <v-subheader>Url</v-subheader>
-                </v-col>
-                <v-col
-                    cols="12"
-                    md="4"
-                >
-                    <v-text-field
-                        label="Url"
-                        v-model.lazy="place.Url"
-                    />
-                </v-col>
-                <v-col
-                    cols="12"
-                    md="4"
-                >
-                    <v-btn @click="goUrl(place.Url)">Link Test</v-btn>
-                </v-col>
-            </v-row>
-            <v-row>
-                <v-col
-                    cols="12"
-                    md="2"
-                >
-                    <v-subheader>Image</v-subheader>
-                </v-col>
-                <v-col
-                    cols="12"
-                    md="4"
-                >
-                    <div>
-                        <v-text-field
-                            label="Image"
-                            v-model.lazy="place.Image"
-                        />
-                    </div>
-                </v-col>
-                <v-col
-                    cols="12"
-                    md="2"
-                >
-                    <v-subheader>Preview</v-subheader>
-                </v-col>
-                <v-col
-                    cols="12"
-                    md="4"
-                >
-                    <div>
-                        <v-img :src="place.Image" />
-                    </div>
-                </v-col>
-            </v-row>
-            <v-divider/>
-            <v-banner>
-                <v-progress-linear
-                    :active="xhrLoading"
-                    :indeterminate="xhrLoading"
-                    absolute
-                    top
-                    color="deep-purple accent-4"
-                ></v-progress-linear>
-                update place data
-
-                <template v-slot:actions>
-                    <v-btn
-                        text
-                        color="deep-purple accent-4"
-                        @click="putPlaceData"
-                    >UPDATE</v-btn>
-                </template>
-            </v-banner>
-        </v-form>
+                    <v-tab>정보 수정</v-tab>
+                    <v-tab>추천글</v-tab>
+                    <v-tab>태그</v-tab>
+                </v-tabs>
+        </v-card>
+        <place-form
+            :place="place"
+            :mode="'UPDATE'"
+        />
     </div>
 </template>
 
 <script>
     import axios from 'axios'
+    import placeForm from './places-form'
 
     export default {
         name: 'places',
+        components: {
+            placeForm
+        },
         data(){
             return {
                 mode: 'UPDATE',

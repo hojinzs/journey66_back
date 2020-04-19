@@ -7,6 +7,7 @@ import VueRouter from 'vue-router'
 import home from '../components/admin/pages/home'
 import users from '../components/admin/pages/users'
 import places from '../components/admin/pages/places'
+import placeCreate from '../components/admin/pages/places-create'
 import placeDetail from '../components/admin/pages/places-detail'
 import tags from '../components/admin/pages/tags'
 import pageNotFound from '../components/admin/pages/404'
@@ -38,6 +39,15 @@ const router = new VueRouter({
             path: '/places',
             name: 'Places',
             component: places,
+            meta: {
+                label: '장소',
+                group: 'places'
+            }
+        },
+        {
+            path: '/places/create',
+            name: 'Places.create',
+            component: placeCreate,
             meta: {
                 label: '장소',
                 group: 'places'
