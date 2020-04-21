@@ -5,11 +5,14 @@ import VueRouter from 'vue-router'
  * import Page Components
  */
 import home from '../components/admin/pages/home'
-import users from '../components/admin/pages/users'
-import places from '../components/admin/pages/places'
-import placeCreate from '../components/admin/pages/places-create'
-import placeDetail from '../components/admin/pages/places-detail'
-import tags from '../components/admin/pages/tags'
+import users from '../components/admin/pages/users/index'
+import userDetail from '../components/admin/pages/users/detail'
+import places from '../components/admin/pages/places/index'
+import placeCreate from '../components/admin/pages/places/create'
+import placeDetail from '../components/admin/pages/places/detail'
+import tags from '../components/admin/pages/tags/index'
+import tagDetail from '../components/admin/pages/tags/detail'
+import tagCreate from '../components/admin/pages/tags/create'
 import pageNotFound from '../components/admin/pages/404'
 
 Vue.use(VueRouter)
@@ -32,6 +35,15 @@ const router = new VueRouter({
             component: users,
             meta: {
                 label: '회원',
+                group: 'users'
+            }
+        },
+        {
+            path: '/users/:user_id',
+            name: 'Users.Show',
+            component: userDetail,
+            meta: {
+                label: '회원 정보',
                 group: 'users'
             }
         },
@@ -68,6 +80,24 @@ const router = new VueRouter({
             component: tags,
             meta: {
                 label: '태그',
+                group: 'tags'
+            }
+        },
+        {
+            path: '/tags/create',
+            name: 'Tags.Create',
+            component: tagCreate,
+            meta: {
+                label: '태그 등록',
+                group: 'tags'
+            }
+        },
+        {
+            path: '/tags/:tag_id',
+            name: 'Tags.Show',
+            component: tagDetail,
+            meta: {
+                label: '태그 상세 정보',
                 group: 'tags'
             }
         },

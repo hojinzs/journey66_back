@@ -20,82 +20,87 @@
                             label="Name"
                         />
                     </v-col>
-                    <v-col
-                        cols="12"
-                        md="4"
-                    >
-                        <v-text-field
-                            v-model="filter.email"
-                            :counter="20"
-                            label="e-mail"
-                        />
-                    </v-col>
                 </v-row>
                 <v-row>
                     <v-col
                         cols="12"
-                        md="4"
+                        md="6"
                     >
                         <v-btn type="submit">
                             Filter
                         </v-btn>
                     </v-col>
+                    <v-col
+                        :class="'d-flex justify-end'"
+                        cols="12"
+                        md="6"
+                    >
+                        <v-btn
+                            class="white--text"
+                            color="deep-purple accent-4"
+                            @click="$router.push({name: 'Tags.Create'})"
+                        >
+                            등록
+                        </v-btn>
+                    </v-col>
                 </v-row>
             </v-container>
         </v-form>
-        <v-divider />
         <v-simple-table>
             <template v-slot:default>
                 <thead>
                 <tr>
                     <th class="text-left">#</th>
                     <th class="text-left">Name</th>
-                    <th class="text-left">e-mail</th>
-                    <th class="text-left">created_at</th>
+                    <th class="text-left">type</th>
                 </tr>
                 </thead>
                 <tbody>
-                <tr v-for="user in users" :key="user.id">
-                    <td>{{ user.id }}</td>
-                    <td>{{ user.name }}</td>
-                    <td>{{ user.email }} | <span v-if="user.email_verified_at">V</span></td>
-                    <td>{{ user.created_at }}</td>
+                <tr
+                    v-for="tag in tags"
+                    :key="tag.id"
+                >
+                    <td>{{ tag.id }}</td>
+                    <td>
+                        <router-link
+                            :to="{name: 'Tags.Show', params: {'tag_id': tag.id }}"
+                        >
+                            {{ tag.name }}
+                        </router-link>
+                    </td>
+                    <td>{{ tag.type }}</td>
                 </tr>
                 </tbody>
             </template>
         </v-simple-table>
-        <v-pagination
-            v-model="page"
-            :length="meta.last_page"
-        ></v-pagination>
     </div>
 </template>
 
 <script>
-    import LaravelResourceController from '../../../mixin/LaravelResourceController.vue'
+    import LaravelResourceController from "../../../../mixin/LaravelResourceController.vue"
 
     export default {
-        name: 'users',
-        mixins: [LaravelResourceController],
+        name: 'places',
+        mixins: [ LaravelResourceController ],
         data(){
             return {
-                users: [],
+                tags: [],
                 filter: {
                     name: null,
-                    email: null,
-                },
+                }
             }
         },
         methods: {
             updateAfterXhrSuccess(data){
-                this.users = data
+                this.tags = data
             }
         },
         created() {
-            this.setXhr('GET','//'+this.$routeList('admin.api.users.index'))
+            this.setXhr('GET','//'+this.$routeList('admin.api.tags.index'))
             this.getData()
         },
         mounted() {
-        },
+            console.log('Component mounted.')
+        }
     }
 </script>

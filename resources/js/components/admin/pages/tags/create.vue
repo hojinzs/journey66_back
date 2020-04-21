@@ -1,18 +1,18 @@
 <template>
     <div>
-        <place-form
+        <tag-form
             :mode="'POST'"
         />
     </div>
 </template>
 
 <script>
-    import placeForm from './places-form'
+    import tagForm from './form'
 
     export default {
-        name: 'CreatePlace',
+        name: 'CreateTag',
         components: {
-            placeForm
+            tagForm
         },
         data(){
             return {

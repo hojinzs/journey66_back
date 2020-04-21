@@ -20,27 +20,24 @@
                             label="Name"
                         />
                     </v-col>
+                    <v-col
+                        cols="12"
+                        md="4"
+                    >
+                        <v-text-field
+                            v-model="filter.email"
+                            :counter="20"
+                            label="e-mail"
+                        />
+                    </v-col>
                 </v-row>
                 <v-row>
                     <v-col
                         cols="12"
-                        md="6"
+                        md="4"
                     >
                         <v-btn type="submit">
                             Filter
-                        </v-btn>
-                    </v-col>
-                    <v-col
-                        :class="'d-flex justify-end'"
-                        cols="12"
-                        md="6"
-                    >
-                        <v-btn
-                            class="white--text"
-                            color="deep-purple accent-4"
-                            @click="$router.push({name: 'Places.create'})"
-                        >
-                            등록
                         </v-btn>
                     </v-col>
                 </v-row>
@@ -53,14 +50,27 @@
                 <tr>
                     <th class="text-left">#</th>
                     <th class="text-left">Name</th>
-                    <th class="text-left">type</th>
+                    <th class="text-left">e-mail</th>
+                    <th class="text-left">created_at</th>
                 </tr>
                 </thead>
                 <tbody>
-                <tr v-for="place in places" :key="place.id" @click="$router.push({name: 'Places.show', params: { place_id: place.id }})">
-                    <td>{{ place.id }}</td>
-                    <td>{{ place.name }}</td>
-                    <td>{{ place.type }}</td>
+                <tr
+                    v-for="user in users"
+                    :key="user.id"
+                >
+                    <td>
+                        {{ user.id }}
+                    </td>
+                    <td>
+                        <router-link
+                            :to="{ name: 'Users.Show', params: { 'user_id': user.id}}"
+                        >
+                            {{ user.name }}
+                        </router-link>
+                    </td>
+                    <td>{{ user.email }} | <span v-if="user.email_verified_at">V</span></td>
+                    <td>{{ user.created_at }}</td>
                 </tr>
                 </tbody>
             </template>
@@ -73,30 +83,30 @@
 </template>
 
 <script>
-    import LaravelResourceController from "../../../mixin/LaravelResourceController.vue"
+    import LaravelResourceController from '../../../../mixin/LaravelResourceController.vue'
 
     export default {
-        name: 'places',
-        mixins: [ LaravelResourceController ],
+        name: 'users',
+        mixins: [LaravelResourceController],
         data(){
             return {
-                places: [],
+                users: [],
                 filter: {
                     name: null,
-                }
+                    email: null,
+                },
             }
         },
         methods: {
             updateAfterXhrSuccess(data){
-                this.places = data
+                this.users = data
             }
         },
         created() {
-            this.setXhr('GET','//'+this.$routeList('admin.api.places.index'))
+            this.setXhr('GET','//'+this.$routeList('admin.api.users.index'))
             this.getData()
         },
         mounted() {
-            console.log('Component mounted.')
-        }
+        },
     }
 </script>

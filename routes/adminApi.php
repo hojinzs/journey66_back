@@ -31,7 +31,7 @@ Route::domain(env('APP_ADMIN_PREFIX').'.'.env('APP_ROOT_DOMAIN','localhost'))->n
      * Tags
      */
     Route::apiResource('tags','API\TagController')
-        ->only('index','show');
+        ->only('index','show','store','update');
 
     /**
      * TEST

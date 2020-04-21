@@ -39,6 +39,12 @@ class UserController extends Controller
         return UserResource::collection($users->paginate($perPage));
     }
 
+    public function show($id)
+    {
+        $user = User::find($id);
+        return $user;
+    }
+
     /**
      * @param Request $request
      * @return \Illuminate\Contracts\Routing\ResponseFactory|\Illuminate\Http\Response

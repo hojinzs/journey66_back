@@ -113,7 +113,7 @@ class PlaceController extends Controller
      * @param Request $request
      * @return array
      */
-    public function validation(Request $request)
+    protected function validation(Request $request)
     {
         return $request->validate([
             'name' => ['required','max:30'],
