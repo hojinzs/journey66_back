@@ -11,10 +11,12 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-         $this->call(UsersTableSeeder::class);
-         $this->call(TagsTableSeeder::class);
-         $this->call(PlacesTableSeeder::class);
-         $this->call(PlaceRecommendsSeeder::class);
+        $this->call(PlaceTypeTableSeeder::class);
+        $this->call(TagTypeTableSeeder::class);
+        $this->call(UsersTableSeeder::class);
+        $this->call(TagsTableSeeder::class);
+        $this->call(PlacesTableSeeder::class);
+        $this->call(PlaceRecommendsSeeder::class);
 //         $this->call(PlaceTagCommentTableSeeder::class); 미완성
     }
 }

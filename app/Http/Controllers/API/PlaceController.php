@@ -130,6 +130,13 @@ class PlaceController extends Controller
         ]);
     }
 
+    /**
+     * set Place Data
+     *
+     * @param Place $place
+     * @param Request $request
+     * @return Place
+     */
     protected function set(Place $place, Request $request)
     {
         $place->name = $request->input('name');

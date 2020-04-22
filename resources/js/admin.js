@@ -25,8 +25,6 @@ adminAuthorization()
         location.href="/login"
     })
 
-console.log()
-
 async function adminAuthorization() {
     if(Cookies.get('Authorization')){
         axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest'

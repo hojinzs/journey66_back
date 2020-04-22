@@ -18,7 +18,8 @@ class Place extends JsonResource
             'id' => $this->id,
             'name' => $this->name,
             'description' => $this->description,
-            'type' => $this->type,
+            'type' => $this->placeType->label,
+            'placeType' => $this->placeType,
             'geoPoint' => [
                 'latitude' => $this->latitude,
                 'longitude' => $this->longitude,

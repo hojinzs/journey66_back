@@ -40,11 +40,11 @@ $factory->define(Tag::class, function (Faker $faker) {
     return [
         //
         'name' => $faker->word,
+        'type' => \App\TagType::all()->random(1)->first()->name,
         'label' => $faker->word,
         'description' => $faker->paragraph(1),
         'color' => $faker->hexColor,
         'icon_prefix' => $icon['prefix'],
         'icon_name' => $icon['name'],
-        'type' => $faker->randomElement($type_array),
     ];
 });

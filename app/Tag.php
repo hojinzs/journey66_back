@@ -16,4 +16,10 @@ class Tag extends Model
         'icon_prefix' => 'fas',
         'icon_name' => 'tag',
     ];
+
+    public function tagType()
+    {
+        return $this->belongsTo('App\TagType','type','name');
+    }
+
 }

@@ -16,7 +16,7 @@ $factory->define(Place::class, function (Faker $faker) {
         'latitude' => $faker->latitude(35.246150,37.718222),
         'longitude' => $faker->latitude(126.555493,129.130652),
         'thumbnail' => $faker->imageUrl(640,360),
-        'type' => $faker->randomElement($type_array),
+        'type' => \App\PlaceType::all()->random(1)->first()->name,
         'zip_code' => $faker->numberBetween(10000,99999),
         'address1' => $faker->streetAddress(),
         'address2' => $faker->city(),
