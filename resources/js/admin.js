@@ -26,10 +26,11 @@ adminAuthorization()
     })
 
 async function adminAuthorization() {
+
     if(Cookies.get('Authorization')){
         axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest'
         axios.defaults.headers.common['Authorization'] = `Bearer ${Cookies.get('Authorization')}`
-        return axios.get('//api.bikegear.test/v1/user')
+        return Promise.resolve()
     } else {
         return Promise.reject('not found Authorization Cookie')
     }
