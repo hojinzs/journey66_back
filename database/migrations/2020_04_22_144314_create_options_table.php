@@ -21,7 +21,7 @@ class CreateOptionsTable extends Migration
             $table->string('label')->nullable();
             $table->timestamps();
 
-            $table->index('optional','column');
+            $table->index('table','column');
         });
     }
 
