@@ -47,7 +47,7 @@ class PlaceTypeController extends Controller
 
         $placeType = $this->set($request, $placeType);
 
-        return response($placeType);
+        return $this->show($placeType->id);
     }
 
     /**
@@ -59,7 +59,9 @@ class PlaceTypeController extends Controller
     public function show($id)
     {
         //
-        $placeType = PlaceType::query()->find($id);
+        $placeType = PlaceType::query()
+            ->withCount('places')
+            ->find($id);
 
         return response($placeType);
     }
@@ -79,12 +81,12 @@ class PlaceTypeController extends Controller
 
         $request->validate([
             'label' => ['required','max:20'],
-            'description' => ['required','max:50'],
+            'description' => ['required','max:100'],
         ]);
 
         $placeType = $this->set($request, $placeType);
 
-        return response($placeType);
+        return $this->show($placeType->id);
     }
 
     /**

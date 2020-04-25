@@ -13,6 +13,7 @@ import placeDetail from '../components/admin/pages/places/detail'
 import tags from '../components/admin/pages/tags/index'
 import tagDetail from '../components/admin/pages/tags/detail'
 import tagCreate from '../components/admin/pages/tags/create'
+import types from '../components/admin/pages/types/index'
 import pageNotFound from '../components/admin/pages/404'
 
 Vue.use(VueRouter)
@@ -99,6 +100,15 @@ const router = new VueRouter({
             meta: {
                 label: '태그 상세 정보',
                 group: 'tags'
+            }
+        },
+        {
+            path: '/types',
+            name: 'Types',
+            component: types,
+            meta: {
+                label: '타입 설정',
+                group: 'types'
             }
         },
         {

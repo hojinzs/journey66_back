@@ -39,7 +39,7 @@ class TagTypeController extends Controller
             'name' => ['required','alpha_num','max:20',
                 Rule::unique('tag_types')],
             'label' => ['required','max:20'],
-            'description' => ['required','max:50'],
+            'description' => ['required','max:100'],
         ]);
 
         $tagType = $this->set($request, new TagType(), 'insert');

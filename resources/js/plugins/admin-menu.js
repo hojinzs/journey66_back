@@ -26,6 +26,13 @@ const adminMenu = [
         icon: 'mdi-tag-multiple',
         routeName: 'Tags',
         groupName: 'tags',
+    },
+    {
+        name: 'types',
+        label: '타입설정',
+        icon: 'mdi-tag-multiple',
+        routeName: 'Types',
+        groupName: 'types',
     }
 ]
 
