@@ -1,6 +1,21 @@
 <script>
     import EditWatcher from "../plugins/editWatcher";
 
+    const ajaxHandler = function(){
+        this._status = 'pending'; // ['pending', 'sending', 'error']
+        this._errorText = null;
+    };
+    ajaxHandler.prototype.setSending = function(){
+        console.log("$AJAX => Before Send");
+        this._status = 'sending'
+    };
+    ajaxHandler.prototype.setError = function(errorText){
+        console.log("$AJAX => Send Error");
+        this._status = 'error';
+        this._errorText = errorText;
+        setTimeout(() => this._status = 'pending', 2000)
+    }
+
     export default {
         name: 'ListResourceController',
         data(){
@@ -18,6 +33,7 @@
                 this.LRC_originArray.forEach( item => {
                     let editable = new EditWatcher(item);
                     editable.$mode = 'update';
+                    editable.$ajax = new ajaxHandler;
                     this.LRC_editableArray.push(editable)
                 })
 
@@ -25,7 +41,8 @@
             },
             LRC_insertItem(){
                 let newModel = JSON.parse(JSON.stringify(this.LRC_itemModel))
-                newModel.$mode = 'insert'
+                newModel.$mode = 'insert';
+                newModel.$ajax = new ajaxHandler;
                 this.LRC_editableArray.push(newModel)
             },
             /**
@@ -67,16 +84,18 @@
              * updateOriginData
              *
              * @param item EditWatcher | Object
+             * @param newOrigin
              * @constructor
              */
-            LRC_updateOrigin(item, newData){
+            LRC_updateOrigin(item, newOrigin){
                 if(item.$mode === 'update'){
-                    item.updateOrigin(newData, true)
+                    item.updateOrigin(newOrigin, true)
                 }
                 if(item.$mode === 'insert'){
-                    let inserter = new EditWatcher(newData);
+                    let inserter = new EditWatcher(newOrigin);
                     inserter.$mode = 'update'
-                    console.log(inserter)
+                    inserter.$ajax = new ajaxHandler;
+
                     this.LRC_destroyItem(item)
                     this.LRC_editableArray.push(inserter)
                 }

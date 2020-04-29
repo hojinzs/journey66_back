@@ -18,78 +18,107 @@
                             description
                         </th>
                         <th>
-                            places_count
+                            places
                         </th>
                         <th>
                             action
                         </th>
                     </tr>
                     </thead>
-                    <tr
+                    <template
                         v-for="(placeType, index) in placeTypes"
-                        :class="{
+                    >
+                        <tr
+                            :class="{
                                 'modified': ( placeType.$mode === 'update' && placeType.$changed ),
                                 'delete': placeType.$mode === 'delete',
                                 'insert' : placeType.$mode === 'insert',
                             }"
-                    >
-                        <td>
-                            {{ placeType.id || '등록' }}
-                        </td>
-                        <td>
-                            <v-text-field
-                                v-if="placeType.$mode === 'insert' "
-                                v-model="placeType.name"
-                            />
-                            <span
-                                v-else
-                            >
+                        >
+                            <td>
+                                {{ placeType.id || '등록' }}
+                            </td>
+                            <td>
+                                <v-text-field
+                                    v-if="placeType.$mode === 'insert' "
+                                    v-model="placeType.name"
+                                />
+                                <span
+                                    v-else
+                                >
                                     {{ placeType.name }}
                                 </span>
-                        </td>
-                        <td>
-                            <v-text-field
-                                v-model="placeType.label"
-                                :disabled="placeType.$mode === 'delete'"
-                            />
-                        </td>
-                        <td>
-                            <v-textarea
-                                v-model="placeType.description"
-                                :disabled="placeType.$mode === 'delete'"
-                                rows="2"
-                            />
-                        </td>
-                        <td>
-                            {{ placeType.places_count }}
-                        </td>
-                        <td>
-                            <v-btn
-                                @click="LRC_restoreItem(placeType)"
-                                :disabled="placeType.$mode !== 'update'"
-                            >
-                                <v-icon>mdi-backup-restore</v-icon>
-                            </v-btn>
-                            <v-btn
-                                @click="LRC_deleteItem(placeType)"
-                                :disabled="placeType.places_count > 0"
-                            >
-                                <v-icon v-if="placeType.$mode !== 'delete'">mdi-delete</v-icon>
-                                <v-icon v-else>mdi-restore</v-icon>
-                            </v-btn>
-                        </td>
-                    </tr>
+                            </td>
+                            <td>
+                                <v-text-field
+                                    v-model="placeType.label"
+                                    :disabled="placeType.$mode === 'delete'"
+                                />
+                            </td>
+                            <td>
+                                <v-textarea
+                                    v-model="placeType.description"
+                                    :disabled="placeType.$mode === 'delete'"
+                                    rows="2"
+                                />
+                            </td>
+                            <td>
+                                {{ placeType.places_count }}
+                            </td>
+                            <td>
+                                <v-btn
+                                    :disabled="( placeType.$mode !== 'update' || placeType.$changed !== true )"
+                                    @click="LRC_restoreItem(placeType)"
+                                >
+                                    <v-icon>mdi-backup-restore</v-icon>
+                                </v-btn>
+                                <v-btn
+                                    :disabled="placeType.places_count > 0"
+                                    @click="LRC_deleteItem(placeType)"
+                                >
+                                    <v-icon v-if="placeType.$mode !== 'delete'">mdi-delete</v-icon>
+                                    <v-icon v-else>mdi-restore</v-icon>
+                                </v-btn>
+                                <v-btn
+                                    :disabled="!( placeType.$mode === 'insert' || placeType.$mode === 'delete' || placeType.$changed === true )"
+                                    :loading="placeType.$ajax._status === 'sending'"
+                                    @click="setPlaceTypeData(placeType,placeType.$mode)"
+                                >
+                                    <v-icon v-if="placeType.$ajax._status === 'error'">
+                                        mdi-alert
+                                    </v-icon>
+                                    <v-icon v-else>
+                                        mdi-cloud-upload
+                                    </v-icon>
+                                </v-btn>
+                            </td>
+                        </tr>
+                        <tr
+                            v-if="placeType.$ajax._status !== 'pending'"
+                            :class="{
+                                'modified': ( placeType.$mode === 'update' && placeType.$changed ),
+                                'delete': placeType.$mode === 'delete',
+                                'insert' : placeType.$mode === 'insert',
+                            }"
+                        >
+                            <td colspan="6">
+                                <span
+                                    v-show="placeType.$ajax._status === 'error'"
+                                >
+                                    <v-icon>mdi-alert</v-icon> {{ placeType.$ajax._errorText }}
+                                </span>
+                                <v-progress-linear
+                                    :active="placeType.$ajax._status === 'sending'"
+                                    :indeterminate="placeType.$ajax._status === 'sending'"
+                                    color="deep-purple accent-4"
+                                ></v-progress-linear>
+                            </td>
+                        </tr>
+                    </template>
                 </template>
             </v-simple-table>
         </div>
         <div>
-            <v-progress-linear
-                :active="loading"
-                :indeterminate="loading"
-                absolute
-                bottom
-                color="deep-purple accent-4"
-            ></v-progress-linear>
             <v-btn
                 @click="LRC_insertItem"
             >
@@ -167,6 +196,7 @@
                 let apiUrl = '//'+this.$routeList('admin.api.places.types.'+method[mode].name, id)
 
                 // send data
+                placeType.$ajax.setSending();
                 return axios({
                     url: apiUrl,
                     method: method[mode].method,
@@ -177,13 +207,16 @@
                     }
                 })
                     .then( res => {
+                        placeType.$ajax._status = 'pending';
                         if(mode === 'delete'){
                             this.LRC_destroyItem(placeType)
                         } else {
                             this.LRC_updateOrigin(placeType, res.data)
                         }
                     })
-                    .catch( error => { console.error(error) })
+                    .catch( error => {
+                        placeType.$ajax.setError(error.response.data.message)
+                    })
             }
         },
         created() {

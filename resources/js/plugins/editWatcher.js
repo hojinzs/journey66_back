@@ -56,6 +56,18 @@ const EditWatcher = class {
             this.restoreChanges()
         }
     }
+
+    isChanged(property){
+        if(!this.hasOwnProperty(property)){
+            return undefined
+        }
+
+        if(this.$mutated[property] === this.$origin[property]){
+            return false
+        } else {
+            return true
+        }
+    }
 }
 
 /**
