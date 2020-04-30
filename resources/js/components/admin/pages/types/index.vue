@@ -1,23 +1,38 @@
 <template>
     <div>
-        <v-card>
-            <v-card-title>
-                장소 타입 설정
-            </v-card-title>
-            <v-card-text>
+        <div class="py-5">
+            <accordion-card
+                title="장소 타입 설정"
+            >
                 <place-types />
-            </v-card-text>
-        </v-card>
+            </accordion-card>
+        </div>
+        <div class="py-5">
+            <accordion-card
+                title="태그 타입 설정"
+            >
+                <tag-types />
+            </accordion-card>
+        </div>
     </div>
 </template>
 
 <script>
     import PlaceTypes from "./PlaceTypes";
+    import TagTypes from "./TagTypes";
+    import AccordionCard from "./AccordionCard";
 
     export default {
         name: 'types',
         components: {
-            PlaceTypes
+            AccordionCard,
+            PlaceTypes,
+            TagTypes
         },
+        data() {
+            return {
+                showPlaceTypes: false,
+            }
+        }
     }
 </script>

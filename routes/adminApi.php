@@ -25,7 +25,7 @@ Route::domain(env('APP_ADMIN_PREFIX').'.'.env('APP_ROOT_DOMAIN','localhost'))->n
      * Places
      */
     Route::prefix('places')->name('places.')->group(function(){
-        Route::apiResource('types','Admin\PlaceTypeController');
+        Route::apiResource('types','API\PlaceTypeController');
     });
     Route::apiResource('places','API\PlaceController')
         ->only('index','show','store','update');
@@ -34,7 +34,7 @@ Route::domain(env('APP_ADMIN_PREFIX').'.'.env('APP_ROOT_DOMAIN','localhost'))->n
      * Tags
      */
     Route::prefix('tags')->name('tags.')->group(function(){
-        Route::apiResource('types','Admin\TagTypeController');
+        Route::apiResource('types','API\TagTypeController');
         Route::get('icon_prefix','API\OptionController@getTagIconPrefix')
             ->name('get_icon_prefix');
         Route::post('icon_prefix','API\OptionController@dispatchTagIconPrefix')

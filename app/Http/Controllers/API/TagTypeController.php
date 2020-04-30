@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Admin;
+namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
 use App\TagType;
@@ -10,6 +10,13 @@ use Illuminate\Validation\Rule;
 
 class TagTypeController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth:admin')->only(
+            'store', 'update','destroy'
+        );
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -38,13 +45,13 @@ class TagTypeController extends Controller
         $request->validate([
             'name' => ['required','alpha_num','max:20',
                 Rule::unique('tag_types')],
-            'label' => ['required','max:20'],
+            'label' => ['required','max:255'],
             'description' => ['required','max:100'],
         ]);
 
         $tagType = $this->set($request, new TagType(), 'insert');
 
-        return response($tagType);
+        return $this->show($tagType->id);
     }
 
     /**
@@ -56,7 +63,9 @@ class TagTypeController extends Controller
     public function show($id)
     {
         //
-        $tagType = TagType::query()->find($id);
+        $tagType = TagType::query()
+            ->withCount('tags')
+            ->find($id);
 
         return response($tagType);
     }
@@ -76,11 +85,11 @@ class TagTypeController extends Controller
 
         $request->validate([
             'label' => ['required','max:20'],
-            'description' => ['required','max:50'],
+            'description' => ['required','max:255'],
         ]);
         $tagType = $this->set($request, $tagType, 'update');
 
-        return response($tagType);
+        return $this->show($tagType->id);
     }
 
     /**

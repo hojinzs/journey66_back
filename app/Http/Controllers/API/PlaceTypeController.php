@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Admin;
+namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
 use App\PlaceType;
@@ -11,6 +11,13 @@ use Illuminate\Validation\Rule;
 
 class PlaceTypeController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth:admin')->only(
+            'store', 'update','destroy'
+        );
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -42,7 +49,7 @@ class PlaceTypeController extends Controller
             'name' => ['required','alpha_num','max:20',
                 Rule::unique('place_types')],
             'label' => ['required','max:20'],
-            'description' => ['required','max:50'],
+            'description' => ['required','max:255'],
         ]);
 
         $placeType = $this->set($request, $placeType);
@@ -81,7 +88,7 @@ class PlaceTypeController extends Controller
 
         $request->validate([
             'label' => ['required','max:20'],
-            'description' => ['required','max:100'],
+            'description' => ['required','max:255'],
         ]);
 
         $placeType = $this->set($request, $placeType);
