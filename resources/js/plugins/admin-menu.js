@@ -29,8 +29,8 @@ const adminMenu = [
     },
     {
         name: 'types',
-        label: '타입설정',
-        icon: 'mdi-tag-multiple',
+        label: '타입 설정',
+        icon: 'mdi-format-list-bulleted-square',
         routeName: 'Types',
         groupName: 'types',
     }

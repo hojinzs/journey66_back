@@ -105,7 +105,6 @@
             this.getData()
         },
         mounted() {
-            console.log('Component mounted.')
         }
     }
 </script>

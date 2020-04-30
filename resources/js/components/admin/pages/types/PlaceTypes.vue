@@ -66,6 +66,7 @@
                         </td>
                         <td>
                             <v-btn
+                                :disabled="( placeType.$mode !== 'update' || placeType.$changed !== true)"
                                 @click="LRC_restoreItem(placeType)"
                             >
                                 <v-icon>mdi-backup-restore</v-icon>

@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Resources\Place as PlaceResource;
 use App\Place;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\App;
 
 class PlaceController extends Controller
 {
@@ -88,8 +89,12 @@ class PlaceController extends Controller
             $place = $this->set($place,$request);
             $place->save();
         }
-        catch (\Exception $exception){
-            return abort(500, 'Internal Server Error');
+        catch (\Exception $exception)
+        {
+            if(App::environment('local')){
+                throw $exception;
+            }
+            return response('Internal Server Error',500);
         }
 
         return new PlaceResource($place);

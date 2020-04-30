@@ -31,9 +31,10 @@
                     <v-select
                         label="Type"
                         :items="placeTypes"
-                        v-model="place.type"
+                        item-value="name"
+                        item-text="label"
+                        v-model="place.placeType"
                     >
-                        {{ place.type }}
                     </v-select>
                 </v-col>
             </v-row>
@@ -246,7 +247,13 @@
         props: {
             place: {
                 default: function () {
-                    return {}
+                    return {
+                        name: "기본값",
+                        placeType: {
+                            name: null,
+                            label: null,
+                        }
+                    }
                 }
             },
             mode: {
@@ -259,14 +266,19 @@
                 xhr: {
                     status: 'ready'
                 },
-                placeTypes: [
-                    'lockstand', 'abc', 'def'
-                ]
+                placeTypes: []
             }
         },
         computed: {
             xhrLoading(){
                 return this.xhr.status === 'loading'
+            },
+            placeTypeList(){
+                let list = [];
+                this.placeTypes.forEach( types => {
+                    list.push( types.name )
+                })
+                return list;
             }
         },
         methods: {
@@ -280,7 +292,7 @@
                     latitude:       this.place.latitude,
                     longitude:      this.place.longitude,
                     thumbnail:      this.place.Image,
-                    type:           this.place.type,
+                    type:           this.place.placeType,
                     zip_code:       this.place.zip_code,
                     address1:       this.place.address1,
                     address2:       this.place.address2,
@@ -315,6 +327,10 @@
             }
         },
         created(){
+            axios.get('//'+this.$routeList('admin.api.places.types.index'))
+                .then( res => {
+                    this.placeTypes = res.data
+                })
         },
         mounted() {
         }

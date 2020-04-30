@@ -31,6 +31,8 @@
                     <v-select
                         label="Type"
                         :items="tagTypes"
+                        item-value="name"
+                        item-text="label"
                         v-model="tag.type"
                     >
                         {{ tag.type }}
@@ -197,9 +199,7 @@
                 xhr: {
                     status: 'ready'
                 },
-                tagTypes: [
-                    'lockstand', 'abc', 'def'
-                ]
+                tagTypes: []
             }
         },
         computed: {
@@ -250,6 +250,10 @@
             }
         },
         created(){
+            axios.get('//'+this.$routeList('admin.api.tags.types.index'))
+                .then( res => {
+                    this.tagTypes = res.data
+                })
         },
         mounted() {
         }
