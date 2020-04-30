@@ -80,7 +80,7 @@
                             </v-btn>
                             <v-btn
                                 :disabled="!( tagType.$mode === 'insert' || tagType.$mode === 'delete' || tagType.$changed === true )"
-                                :loading="( tagType.$ajax._status === 'sending' || loading === true )"
+                                :loading="( tagType.$ajax._status === 'sending' || ( tagType.$changed === true && loading === true) )"
                                 @click="setTagTypeData(tagType,tagType.$mode)"
                             >
                                 <v-icon v-if="tagType.$ajax._status === 'error'">
@@ -133,6 +133,7 @@
                 md="6"
             >
                 <v-btn
+                    :disabled="LRC_changedCount === 0"
                     @click="sendAllData"
                     color="deep-purple accent-4"
                 >

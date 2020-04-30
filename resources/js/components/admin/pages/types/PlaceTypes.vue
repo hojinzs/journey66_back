@@ -66,7 +66,6 @@
                         </td>
                         <td>
                             <v-btn
-                                :disabled="( placeType.$mode !== 'update' || placeType.$changed !== true )"
                                 @click="LRC_restoreItem(placeType)"
                             >
                                 <v-icon>mdi-backup-restore</v-icon>
@@ -80,7 +79,7 @@
                             </v-btn>
                             <v-btn
                                 :disabled="!( placeType.$mode === 'insert' || placeType.$mode === 'delete' || placeType.$changed === true )"
-                                :loading="( placeType.$ajax._status === 'sending' || loading === true )"
+                                :loading="( placeType.$ajax._status === 'sending' || ( placeType.$changed === true && loading === true ) )"
                                 @click="setPlaceTypeData(placeType,placeType.$mode)"
                             >
                                 <v-icon v-if="placeType.$ajax._status === 'error'">
@@ -133,6 +132,7 @@
                 md="6"
             >
                 <v-btn
+                    :disabled="LRC_changedCount === 0"
                     @click="sendAllData"
                     color="deep-purple accent-4"
                 >

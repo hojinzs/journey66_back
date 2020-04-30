@@ -25,6 +25,15 @@
                 LRC_itemModel: {},
             }
         },
+        computed: {
+            LRC_changedCount: function(){
+                let list = this.LRC_editableArray.filter( item => {
+                    return !(item.$mode === 'update' && item.$changed === false);
+                })
+                console.log("changedCount action");
+                return list.length
+            }
+        },
         methods: {
             LRC_initialize(itemModel, dataArray){
                 this.LRC_itemModel = JSON.parse(JSON.stringify(itemModel));
