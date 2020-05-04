@@ -19,7 +19,7 @@ class PlacesTableSeeder extends Seeder
     {
 
         //
-        factory(Place::class, 20)
+        factory(Place::class, 200)
             ->create()
             ->each(function ($place) {
                 $faker = Faker::create();

@@ -15,6 +15,11 @@ class Place extends Model
         'status' => 'live',
     ];
 
+    public $distanceFromOrigin;
+    public $originLatitude;
+    public $originLongitude;
+
+
     public function tags()
     {
         return $this->belongsToMany('App\Tag')->withPivot('id','tagging_counts')->withTimestamps();
@@ -49,6 +54,26 @@ class Place extends Model
             }
         }
         return false;
+    }
+
+    public function setDistanceFromOrigin(array $coord = null)
+    {
+        if($coord == null){
+            $this->distanceToOrigin = 0;
+            return $this->distanceToOrigin;
+        }
+
+        $this->originLatitude = $coord[0];
+        $this->originLongitude = $coord[1];
+
+        $geotools = new \League\Geotools\Geotools();
+        $originCoord   = new \League\Geotools\Coordinate\Coordinate($coord);
+        $thisCoord   = new \League\Geotools\Coordinate\Coordinate([$this->latitude, $this->longitude]);
+        $distance = $geotools->distance()->setFrom($originCoord)->setTo($thisCoord);
+
+        $this->distanceFromOrigin = $distance->in('km')->haversine();
+
+        return $this->distanceFromOrigin;
     }
 
 }

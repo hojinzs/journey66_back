@@ -6,7 +6,11 @@ use App\Http\Controllers\Controller;
 use App\Http\Resources\Place as PlaceResource;
 use App\Place;
 use Illuminate\Http\Request;
+use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Facades\App;
+use Illuminate\Support\Facades\Log;
+use League\Geotools\Coordinate\Coordinate;
+use League\Geotools\Geotools;
 
 class PlaceController extends Controller
 {
@@ -27,13 +31,71 @@ class PlaceController extends Controller
     public function index(Request $request)
     {
         //
-        $place = Place::query()->withCount(['likes','recommends']) ;
+
+        $places = Place::query()->withCount(['likes','recommends']) ;
 
         if($request->query('name')){
-            $place->where('name','like','%'.$request->query('name').'%');
+            $places->where('name','like','%'.$request->query('name').'%');
         }
 
-        return PlaceResource::collection($place->paginate(10));
+        /**
+         * 원점(latitude, longitude)과 거리(distance)가 주어 졌을 때, 원점으로부터 거리 안에 있는 장소만 검색
+         */
+        if($request->query('latitude') && $request->query('longitude') && $request->query('distance')){
+            $requestPosition = new Coordinate(array(
+                $request->query('latitude'),
+                $request->query('longitude')
+            ));
+            $distance = $request->query('distance') * 1000;
+            $geoTools = new Geotools();
+
+            $north = $geoTools->vertex()->setFrom($requestPosition)->destination(0,$distance);
+            $east = $geoTools->vertex()->setFrom($requestPosition)->destination(90,$distance);
+            $south = $geoTools->vertex()->setFrom($requestPosition)->destination(180,$distance);
+            $west = $geoTools->vertex()->setFrom($requestPosition)->destination(270,$distance);
+
+            $places
+                ->whereBetween('latitude',array(
+                    $south->getLatitude(),
+                    $north->getLatitude(),
+            ))
+                ->whereBetween('longitude',array(
+                    $west->getLongitude(),
+                    $east->getLongitude(),
+            ));
+
+        }
+
+        /**
+         * 원점(latitude, longitude)과 거리(distance)가 주어 졌을 때, 원점으로부터 가까운 거리순으로 정렬하고 결과를 출력
+         */
+        if($request->query('latitude') && $request->query('longitude') && $request->query('distance')){
+
+            $origin = array(
+                $request->query('latitude'),
+                $request->query('longitude')
+            );
+            $distance = $request->query('distance');
+
+            $places = $places->limit(100)->get()
+                ->each(function (Place $place) use ($origin){
+                    $place->setDistanceFromOrigin($origin);
+                })
+                ->reject(function($place) use($origin, $distance){
+                    Log::info('distance => '.$place->distanceFromOrigin);
+                    return $place->distanceFromOrigin > $distance;
+                })
+                ->sortBy('distanceFromOrigin');
+
+            $currentPage = LengthAwarePaginator::resolveCurrentPage();
+            $perPage = 10;
+            $currentItems = $places->splice($perPage * ($currentPage - 1),$perPage);
+            $placesPaginator = new LengthAwarePaginator($currentItems, count($places), $perPage);
+
+            return PlaceResource::collection($placesPaginator);
+        }
+
+        return PlaceResource::collection($places->paginate(10));
     }
 
     /**

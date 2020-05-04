@@ -24,6 +24,16 @@ class Place extends JsonResource
                 'latitude' => $this->latitude,
                 'longitude' => $this->longitude,
             ],
+            'distance' => [
+                'distanceFromOrigin' => $this->distanceFromOrigin,
+                'originLatitude' => $this->originLatitude,
+                'originLongitude' => $this->originLongitude,
+            ],
+//            'distance' => $this->when($this->distanceFromOrigin == null,[
+//                'distanceFromOrigin' => $this->distanceFromOrigin,
+//                'originLatitude' => $this->originLatitude,
+//                'originLongitude' => $this->originLongitude,
+//            ]),
             'phone' => $this->phone_number,
             'formattedAddress' => $this->address1.' '.$this->address2,
             'address' => [
