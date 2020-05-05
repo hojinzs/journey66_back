@@ -5,6 +5,7 @@ namespace App\Http\Controllers\API;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\Place as PlaceResource;
 use App\Place;
+use Illuminate\Database\Query\Builder;
 use Illuminate\Http\Request;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Facades\App;
@@ -14,7 +15,6 @@ use League\Geotools\Geotools;
 
 class PlaceController extends Controller
 {
-
 
     public function __construct()
     {
@@ -30,12 +30,22 @@ class PlaceController extends Controller
      */
     public function index(Request $request)
     {
-        //
-
         $places = Place::query()->withCount(['likes','recommends']) ;
 
+        /**
+         * 장소 이름 (name)을 기준으로 필터
+         */
         if($request->query('name')){
             $places->where('name','like','%'.$request->query('name').'%');
+        }
+
+        /**
+         * 주어진 태그 배열(Tags)를 포함하는 장소 정보를 필터
+         */
+        if($request->query('tags')){
+            $places->whereHas('tags', function($query) use ($request){
+                $query->whereIn('name',$request->query('tags'));
+            });
         }
 
         /**
@@ -88,9 +98,10 @@ class PlaceController extends Controller
                 ->sortBy('distanceFromOrigin');
 
             $currentPage = LengthAwarePaginator::resolveCurrentPage();
+            $totalCount = count($places);
             $perPage = 10;
-            $currentItems = $places->splice($perPage * ($currentPage - 1),$perPage);
-            $placesPaginator = new LengthAwarePaginator($currentItems, count($places), $perPage);
+            $currentItems = $places->splice($perPage * ($currentPage - 1), $perPage);
+            $placesPaginator = new LengthAwarePaginator($currentItems, $totalCount, $perPage);
 
             return PlaceResource::collection($placesPaginator);
         }
