@@ -20,7 +20,7 @@ class Tag extends JsonResource
             'type' => $this->tagType->label,
             'tag_Type' => $this->tagType,
             'label' => $this->label,
-            'icon_prefix' => $this->icon_prefox,
+            'icon_prefix' => $this->icon_prefix,
             'icon_name' => $this->icon_name,
             'color' => $this->color,
         ];
