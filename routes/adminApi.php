@@ -44,6 +44,20 @@ Route::domain(env('APP_ADMIN_PREFIX').'.'.env('APP_ROOT_DOMAIN','localhost'))->n
         ->only('index','show','store','update');
 
     /**
+     * Options
+     */
+    Route::prefix('options')->name('options.')->group(function(){
+        Route::get('/{table}','API\OptionController@index')
+            ->name('index');
+        Route::get('/{table}/{column}','API\OptionController@show')
+            ->name('show');
+        Route::post('/{table}/{column}','API\OptionController@store')
+            ->name('store');
+        Route::delete('/{table}/{column}/{option}','API\OptionController@destroy')
+            ->name('destroy');
+    });
+
+    /**
      * TEST
      */
     Route::get('/test', function (Request $request) {
