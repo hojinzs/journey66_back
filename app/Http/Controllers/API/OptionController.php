@@ -4,7 +4,6 @@ namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
 use App\Option;
-use http\Env\Response;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
@@ -13,42 +12,42 @@ use Illuminate\Validation\Rule;
 
 class OptionController extends Controller
 {
-    //
-    public function dispatchTagIconPrefix(Request $request)
-    {
-        $newIconPrefixArray = json_decode($request->array);
-
-        if(!is_array($newIconPrefixArray)){
-            return abort(400,'array must be json');
-        }
-
-        $options = Option::query()
-            ->where('table','=','tags')
-            ->where('column','=','icon_prefix')
-            ->get();
-
-        foreach ($options as $option) {
-            $option->delete();
-        }
-
-        foreach ($newIconPrefixArray as $newPrefix)
-        {
-            $this->newOption('tags','icon_prefix',$newPrefix);
-        }
-
-        return $this->getTagIconPrefix();
-
-    }
-
-    public function getTagIconPrefix()
-    {
-        $options = Option::query()
-            ->where('table','=','tags')
-            ->where('column','=','icon_prefix')
-            ->get();
-
-        return $this->toArray($options);
-    }
+//    //
+//    public function dispatchTagIconPrefix(Request $request)
+//    {
+//        $newIconPrefixArray = json_decode($request->array);
+//
+//        if(!is_array($newIconPrefixArray)){
+//            return abort(400,'array must be json');
+//        }
+//
+//        $options = Option::query()
+//            ->where('table','=','tags')
+//            ->where('column','=','icon_prefix')
+//            ->get();
+//
+//        foreach ($options as $option) {
+//            $option->delete();
+//        }
+//
+//        foreach ($newIconPrefixArray as $newPrefix)
+//        {
+//            $this->newOption('tags','icon_prefix',$newPrefix);
+//        }
+//
+//        return $this->getTagIconPrefix();
+//
+//    }
+//
+//    public function getTagIconPrefix()
+//    {
+//        $options = Option::query()
+//            ->where('table','=','tags')
+//            ->where('column','=','icon_prefix')
+//            ->get();
+//
+//        return $this->toArray($options);
+//    }
 
     /**
      * @param $table
@@ -170,7 +169,7 @@ class OptionController extends Controller
         $options->column = $column;
         $options->option = $option;
         if($label != null){
-            $options->lable = $label;
+            $options->label = $label;
         }
         $options->save();
 

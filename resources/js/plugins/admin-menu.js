@@ -33,6 +33,13 @@ const adminMenu = [
         icon: 'mdi-format-list-bulleted-square',
         routeName: 'Types',
         groupName: 'types',
+    },
+    {
+        name: 'options',
+        label: '선택값 설정',
+        icon: 'mdi-format-list-bulleted-square',
+        routeName: 'Options',
+        groupName: 'options',
     }
 ]
 

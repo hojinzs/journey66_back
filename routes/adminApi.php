@@ -35,10 +35,10 @@ Route::domain(env('APP_ADMIN_PREFIX').'.'.env('APP_ROOT_DOMAIN','localhost'))->n
      */
     Route::prefix('tags')->name('tags.')->group(function(){
         Route::apiResource('types','API\TagTypeController');
-        Route::get('icon_prefix','API\OptionController@getTagIconPrefix')
-            ->name('get_icon_prefix');
-        Route::post('icon_prefix','API\OptionController@dispatchTagIconPrefix')
-            ->name('set_icon_prefix');
+//        Route::get('icon_prefix','API\OptionController@getTagIconPrefix')
+//            ->name('get_icon_prefix');
+//        Route::post('icon_prefix','API\OptionController@dispatchTagIconPrefix')
+//            ->name('set_icon_prefix');
     });
     Route::apiResource('tags','API\TagController')
         ->only('index','show','store','update');

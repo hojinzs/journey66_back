@@ -54,11 +54,13 @@
     "admin.api.tags.types.show": "api\/tags\/types\/{type}",
     "admin.api.tags.types.update": "api\/tags\/types\/{type}",
     "admin.api.tags.types.destroy": "api\/tags\/types\/{type}",
-    "admin.api.tags.get_icon_prefix": "api\/tags\/icon_prefix",
-    "admin.api.tags.set_icon_prefix": "api\/tags\/icon_prefix",
     "admin.api.tags.index": "api\/tags",
     "admin.api.tags.store": "api\/tags",
     "admin.api.tags.show": "api\/tags\/{tag}",
     "admin.api.tags.update": "api\/tags\/{tag}",
+    "admin.api.options.index": "api\/options\/{table}",
+    "admin.api.options.show": "api\/options\/{table}\/{column}",
+    "admin.api.options.store": "api\/options\/{table}\/{column}",
+    "admin.api.options.destroy": "api\/options\/{table}\/{column}\/{option}",
     "admin.api.test": "api\/test"
 }
