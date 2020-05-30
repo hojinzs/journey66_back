@@ -72,7 +72,6 @@
                                 <v-icon>mdi-backup-restore</v-icon>
                             </v-btn>
                             <v-btn
-                                :disabled="tagType.tags_count > 0"
                                 @click="LRC_deleteItem(tagType)"
                             >
                                 <v-icon v-if="tagType.$mode !== 'delete'">mdi-delete</v-icon>

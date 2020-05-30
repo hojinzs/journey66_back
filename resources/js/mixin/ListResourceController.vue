@@ -38,17 +38,17 @@
                 this.LRC_itemModel = JSON.parse(JSON.stringify(itemModel));
                 this.LRC_originArray = dataArray;
 
-                this.LRC_originArray.forEach( item => {
+                this.LRC_editableArray = this.LRC_originArray.map( item => {
                     let editable = new EditWatcher(item);
                     editable.$mode = 'update';
                     editable.$ajax = new ajaxHandler;
-                    this.LRC_editableArray.push(editable)
+                    return editable
                 })
 
                 return this.LRC_editableArray;
             },
             LRC_insertItem(){
-                let newModel = JSON.parse(JSON.stringify(this.LRC_itemModel))
+                let newModel = new EditWatcher(JSON.parse(JSON.stringify(this.LRC_itemModel)))
                 newModel.$mode = 'insert';
                 newModel.$ajax = new ajaxHandler;
                 this.LRC_editableArray.push(newModel)

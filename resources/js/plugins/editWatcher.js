@@ -6,6 +6,18 @@ const EditWatcher = class {
         this.$changed = false
 
         this._setProperties()
+
+        return this
+    }
+
+    setMode(mode){
+        // 향후 update, insert 검증 추가
+        this.$mode = mode
+        return this
+    }
+
+    get mode(){
+        return this.$mode
     }
 
     _setProperties(){
