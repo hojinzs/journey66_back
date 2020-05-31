@@ -7,6 +7,7 @@ import axios from 'axios'
 import Cookies from 'js-cookie'
 import routeList from './plugins/route-list'
 import routes from './config/routes'
+import veeValidate from './plugins/veeValidate'
 
 Vue.use(routeList,{routeJson: routes})
 
@@ -17,6 +18,7 @@ adminAuthorization()
             store,
             router,
             vuetify,
+            veeValidate,
             el: '#app',
             render: h => h(App),
         })

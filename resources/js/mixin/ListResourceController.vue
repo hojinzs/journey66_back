@@ -4,6 +4,7 @@
     const ajaxHandler = function(){
         this._status = 'pending'; // ['pending', 'sending', 'error']
         this._errorText = null;
+        this._errors= [];
     };
     ajaxHandler.prototype.setSending = function(){
         console.log("$AJAX => Before Send");

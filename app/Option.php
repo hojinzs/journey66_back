@@ -8,4 +8,9 @@ class Option extends Model
 {
     //
 
+    protected $attributes = [
+        'order' => null,
+        'show' => 0,
+    ];
+
 }

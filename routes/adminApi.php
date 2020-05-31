@@ -35,10 +35,6 @@ Route::domain(env('APP_ADMIN_PREFIX').'.'.env('APP_ROOT_DOMAIN','localhost'))->n
      */
     Route::prefix('tags')->name('tags.')->group(function(){
         Route::apiResource('types','API\TagTypeController');
-//        Route::get('icon_prefix','API\OptionController@getTagIconPrefix')
-//            ->name('get_icon_prefix');
-//        Route::post('icon_prefix','API\OptionController@dispatchTagIconPrefix')
-//            ->name('set_icon_prefix');
     });
     Route::apiResource('tags','API\TagController')
         ->only('index','show','store','update');
@@ -47,14 +43,24 @@ Route::domain(env('APP_ADMIN_PREFIX').'.'.env('APP_ROOT_DOMAIN','localhost'))->n
      * Options
      */
     Route::prefix('options')->name('options.')->group(function(){
+        Route::get('','API\OptionController@list')
+            ->name('list');
+        Route::post('','API\OptionController@create')
+            ->name('create');
+
         Route::get('/{table}','API\OptionController@index')
             ->name('index');
         Route::get('/{table}/{column}','API\OptionController@show')
             ->name('show');
         Route::post('/{table}/{column}','API\OptionController@store')
             ->name('store');
+        Route::put('/{table}/{column}/_order','API\OptionController@order')
+            ->name('order');
+        Route::put('/{table}/{column}/{id}','API\OptionController@update')
+            ->name('update');
         Route::delete('/{table}/{column}/{option}','API\OptionController@destroy')
             ->name('destroy');
+
     });
 
     /**

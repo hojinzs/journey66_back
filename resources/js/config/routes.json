@@ -58,9 +58,13 @@
     "admin.api.tags.store": "api\/tags",
     "admin.api.tags.show": "api\/tags\/{tag}",
     "admin.api.tags.update": "api\/tags\/{tag}",
+    "admin.api.options.list": "api\/options",
+    "admin.api.options.create": "api\/options",
     "admin.api.options.index": "api\/options\/{table}",
     "admin.api.options.show": "api\/options\/{table}\/{column}",
     "admin.api.options.store": "api\/options\/{table}\/{column}",
+    "admin.api.options.order": "api\/options\/{table}\/{column}\/_order",
+    "admin.api.options.update": "api\/options\/{table}\/{column}\/{id}",
     "admin.api.options.destroy": "api\/options\/{table}\/{column}\/{option}",
     "admin.api.test": "api\/test"
 }
