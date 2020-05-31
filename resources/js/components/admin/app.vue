@@ -17,7 +17,6 @@
                     >
                         <form method="GET" action="/logout">
                             <v-btn class="float-md-right" color="light-blue lighten-3" type="submmit">로그아웃</v-btn>
-<!--                            <button type="submit">로그아웃</button>-->
                         </form>
                     </v-list-item>
                 </v-list>
@@ -54,6 +53,13 @@
         <v-content>
             <!-- Provides the application the proper gutter -->
             <v-container fluid>
+                <v-progress-linear
+                    :active="$store.getters['loader/isLoading']"
+                    :indeterminate="$store.getters['loader/isLoading']"
+                    absolute
+                    top
+                    color="deep-purple accent-4"
+                ></v-progress-linear>
                 <!-- If using vue-router -->
                 <router-view></router-view>
             </v-container>

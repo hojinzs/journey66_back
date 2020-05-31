@@ -68,7 +68,9 @@
                     .then(() => {
                         console.log("SDF")
                     })
-                    .catch((error) => {
+                    .catch( error => {
+
+                        console.log(error);
 
                         if(error.response.status === 422){
                             console.log(this.$refs.observer)

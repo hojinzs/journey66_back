@@ -160,9 +160,6 @@
     import ListResourceController from "../../../../mixin/ListResourceController";
     import createOption from "./create"
 
-    let beforeInterceptor;
-    let afterInterceptor;
-
     export default {
         name: "options",
         mixins: [ ListResourceController ],
@@ -321,8 +318,9 @@
                         this.LRC_updateOrigin(option, res.data)
                     })
                     .catch( error => {
+                        console.log(error.response);
+
                         if(error.response.status === 422){
-                            let refs = this.$refs['obj_'+option.id][0];
                             console.log("Objects => ", 'obj_'+option.id, refs)
 
                             refs.setErrors(error.response.data.errors)
@@ -368,30 +366,10 @@
         },
         created()
         {
-            beforeInterceptor = axios.interceptors.request.use(
-                config => {
-                    this.loading = true
-                    return config
-                })
-
-            afterInterceptor = axios.interceptors.response.use(
-                    response => {
-                        this.loading = false
-                        return response;
-                    },
-                    error => {
-                        this.loading = false
-                        return Promise.reject(error);
-                    });
-
             this.getTables()
                 .then(() => {
                     this.tables.forEach( table => this.getOptionsIndex(table))
                 })
         },
-        beforeDestroy() {
-            axios.interceptors.request.eject(beforeInterceptor);
-            axios.interceptors.response.eject(afterInterceptor);
-        }
     }
 </script>

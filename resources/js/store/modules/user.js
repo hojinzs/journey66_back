@@ -1,8 +1,5 @@
-import axios from 'axios'
-import Cookies from 'js-cookie'
-
 const user = {
-    namespace: true,
+    namespaced: true,
     state: {
         status: 'pending',
         user: null,

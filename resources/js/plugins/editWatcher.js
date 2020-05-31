@@ -10,16 +10,6 @@ const EditWatcher = class {
         return this
     }
 
-    setMode(mode){
-        // 향후 update, insert 검증 추가
-        this.$mode = mode
-        return this
-    }
-
-    get mode(){
-        return this.$mode
-    }
-
     _setProperties(){
         this.$properties = Object.keys(this.$origin)
         this.$properties.forEach( key => {
@@ -74,11 +64,7 @@ const EditWatcher = class {
             return undefined
         }
 
-        if(this.$mutated[property] === this.$origin[property]){
-            return false
-        } else {
-            return true
-        }
+        return this.$mutated[property] !== this.$origin[property];
     }
 }
 

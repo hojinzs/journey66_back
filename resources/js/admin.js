@@ -8,6 +8,7 @@ import Cookies from 'js-cookie'
 import routeList from './plugins/route-list'
 import routes from './config/routes'
 import veeValidate from './plugins/veeValidate'
+import loader from './plugins/loader'
 
 Vue.use(routeList,{routeJson: routes})
 
@@ -19,6 +20,7 @@ adminAuthorization()
             router,
             vuetify,
             veeValidate,
+            loader,
             el: '#app',
             render: h => h(App),
         })
@@ -32,8 +34,8 @@ async function adminAuthorization() {
     if(Cookies.get('Authorization')){
         axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest'
         axios.defaults.headers.common['Authorization'] = `Bearer ${Cookies.get('Authorization')}`
-        return Promise.resolve()
+        await Promise.resolve()
     } else {
-        return Promise.reject('not found Authorization Cookie')
+        await Promise.reject('not found Authorization Cookie')
     }
 }
