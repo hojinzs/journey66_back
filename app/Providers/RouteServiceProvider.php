@@ -7,6 +7,12 @@ use Illuminate\Support\Facades\Route;
 
 class RouteServiceProvider extends ServiceProvider
 {
+
+    /**
+     * @var mixed
+     */
+    private $domain;
+
     /**
      * This namespace is applied to your controller routes.
      *
@@ -22,6 +28,15 @@ class RouteServiceProvider extends ServiceProvider
      * @var string
      */
     public const HOME = '/home';
+
+    /**
+     * @var mixed
+     */
+    private $api_sub_domain;
+    /**
+     * @var mixed
+     */
+    private $admin_sub_domain;
 
     /**
      * Define your route model bindings, pattern filters, etc.
@@ -42,10 +57,12 @@ class RouteServiceProvider extends ServiceProvider
      */
     public function map()
     {
+        $this->api_sub_domain = env('APP_API_PREFIX');
+        $this->admin_sub_domain = env('APP_ADMIN_PREFIX');
+        $this->domain = env('APP_ROOT_DOMAIN');
+
         $this->mapApiRoutes();
-
         $this->mapWebRoutes();
-
         $this->mapAdminApiRoutes();
 
         //
@@ -74,16 +91,18 @@ class RouteServiceProvider extends ServiceProvider
      */
     protected function mapApiRoutes()
     {
-        Route::prefix('v1')
-            ->middleware('api')
+        Route::domain($this->api_sub_domain.'.'.$this->domain)
+            ->prefix('v1')
+            ->name('front.api.')
             ->namespace($this->namespace)
             ->group(base_path('routes/api.php'));
     }
 
     protected function mapAdminApiRoutes()
     {
-        Route::prefix('api')
-            ->middleware(['api', 'auth:sanctum','auth:admin'])
+        Route::domain($this->admin_sub_domain.'.'.$this->domain)
+            ->prefix('api')
+            ->name('admin.api.')
             ->namespace($this->namespace)
             ->group(base_path('routes/adminApi.php'));
     }

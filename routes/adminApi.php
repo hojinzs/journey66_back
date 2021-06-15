@@ -13,7 +13,7 @@ use Illuminate\Support\Facades\Route;
 | is assigned the "api" middleware group. Enjoy building your API!
 |
 */
-Route::domain(env('APP_ADMIN_PREFIX').'.'.env('APP_ROOT_DOMAIN','localhost'))->name('admin.api.')->group(function(){
+Route::middleware(['api', 'auth:sanctum','auth:admin'])->group(function(){
 
     /**
      * Users

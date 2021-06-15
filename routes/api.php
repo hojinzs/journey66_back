@@ -13,7 +13,7 @@ use Illuminate\Support\Facades\Route;
 | is assigned the "api" middleware group. Enjoy building your API!
 |
 */
-Route::domain(env('APP_API_PREFIX').'.'.env('APP_ROOT_DOMAIN','localhost'))->group(function(){
+Route::middleware('api')->group(function(){
 
     /**
      * Place Routes
